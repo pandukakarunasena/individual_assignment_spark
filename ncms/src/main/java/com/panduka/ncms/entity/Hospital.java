@@ -1,15 +1,36 @@
 package com.panduka.ncms.entity;
 
-import java.sql.Date;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class Hospital {
+@Entity
+@Table(name = "hospital")
+public class Hospital implements E{
+
+    @Id
+    //@GeneratedValue(strategy= GenerationType.IDENTITY)
     private String id;
     private String name;
     private String district;
+
+    @Column(name="location_x")
     private float locationX;
+
+    @Column(name="location_y")
     private float locationY;
-    private Date build_date;
-    private int avail_beds;
+
+    @Column(name="build_date")
+    private Date buildDate;
+
+    @Column(name="avail_beds")
+    private int availBeds;
+
+    //private User chiefDoctor;
 
     public Hospital() {
 
@@ -39,42 +60,51 @@ public class Hospital {
         this.district = district;
     }
 
-    public float getLocation_x() {
+    public float getLocationX() {
         return locationX;
     }
 
-    public void setLocation_x(float locationX) {
+    public void setLocationX(float locationX) {
         this.locationX = locationX;
     }
 
-    public float getLocation_y() {
+    public float getLocationY() {
         return locationY;
     }
 
-    public void setLocation_y(float location_y) {
+    public void setLocationY(float location_y) {
         this.locationY = locationY;
     }
 
-    public Date getBuild_date() {
-        return build_date;
+    public Date getBuildDate() {
+        return buildDate;
     }
 
-    public void setBuild_date(Date build_date) {
-        this.build_date = build_date;
+    public void setBuildDate(Date buildDate) {
+        this.buildDate = buildDate;
     }
 
-    public int getAvail_beds() {
-        return avail_beds;
+    public int getAvailBeds() {
+        return availBeds;
     }
 
-    public void setAvail_beds(int avail_beds) {
-        this.avail_beds = avail_beds;
+    public void setAvailBeds(int availBeds) {
+        this.availBeds = availBeds;
     }
 
+//    public User getChiefDoctor() {
+//        return chiefDoctor;
+//    }
+//
+//    public void setChiefDoctor(User chiefDoctor) {
+//        this.chiefDoctor = chiefDoctor;
+//    }
     @Override public String toString() {
         return "Hospital{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", district='" + district + '\''
-                + ", location_x=" + locationX + ", location_y=" + locationY + ", build_date=" + build_date
-                + ", avail_beds=" + avail_beds + '}';
+                + ", location_x=" + locationX + ", location_y=" + locationY + ", buildDate=" + buildDate
+                + ", availBeds=" + availBeds + '}';
     }
+
+
 
 }

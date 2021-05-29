@@ -1,6 +1,6 @@
 package com.panduka.ncms.entity;
 
-public class PatientQueue {
+public class PatientQueue implements E{
     private int id;
     private Patient patientId;
     private int status;

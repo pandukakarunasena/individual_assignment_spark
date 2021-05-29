@@ -2,7 +2,7 @@ package com.panduka.ncms.entity;
 
 import java.util.Date;
 
-public class Patient {
+public class Patient implements E{
     private String id;
     private String district;
     private float locationX;

@@ -1,6 +1,6 @@
 package com.panduka.ncms.entity;
 
-public class User {
+public class User implements E{
     private String id;
     private String username;
     private String password;

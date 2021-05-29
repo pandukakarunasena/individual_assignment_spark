@@ -1,5 +1,7 @@
 package com.panduka.ncms.dto;
 
+import com.panduka.ncms.dto.impl.UserDTOImpl;
+
 public interface HospitalDTO {
     String getName();
 
@@ -21,8 +23,12 @@ public interface HospitalDTO {
 
     void setY(float y);
 
-    String getChiefDoctorName();
+    UserDTOImpl getChiefDoctorName();
 
-    void setChiefDoctorName(String chiefDoctorName);
+    void setChiefDoctorName(UserDTOImpl chiefDoctorName);
+
+    String getDistrictName();
+
+    void setDistrictName(String districtName);
 
 }
