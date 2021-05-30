@@ -5,7 +5,7 @@
     <title>backend service</title>
 </head>
 <body>
-<h1><%= "backend service index.jsp" %>
+<h1><%= "backend service" %>
 </h1>
 <br/>
 </body>

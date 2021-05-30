@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -30,7 +31,8 @@ public class Hospital implements E{
     @Column(name="avail_beds")
     private int availBeds;
 
-    //private User chiefDoctor;
+    @OneToOne
+    private User chiefDoctor;
 
     public Hospital() {
 

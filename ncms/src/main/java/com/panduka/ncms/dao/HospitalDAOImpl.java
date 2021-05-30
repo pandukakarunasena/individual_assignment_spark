@@ -1,16 +1,31 @@
 package com.panduka.ncms.dao;
 
-import com.panduka.ncms.dto.HospitalDTO;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.utils.db.HibernateUtil;
+
 import java.util.List;
 import org.hibernate.Session;
 
 public class HospitalDAOImpl implements HospitalDAO{
 
     @Override public List<Hospital> getAllHospitals() {
+        System.out.println("hospital dao called");
 
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+        System.out.println(" executing the query.....");
+        List<Hospital> allHospitals= session.createSQLQuery("select * from hospital").list();
+
+        System.out.println( allHospitals);
+
+        for( Hospital h: allHospitals){
+            System.out.println(h);
+        }
+
+
+        //terminate session factory, otherwise program won't end
+        HibernateUtil.getSessionFactory().close();
+        return allHospitals;
     }
 
     @Override public Hospital getHospitalById(String id) {
@@ -18,27 +33,24 @@ public class HospitalDAOImpl implements HospitalDAO{
     }
 
     @Override public Hospital createHospital( Hospital newHospital) {
-        //Get Session
-        Session session = HibernateUtil.getSessionAnnotationFactory().getCurrentSession();
-        //start transaction
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        //Save the Model object
         session.save(newHospital);
-        //Commit transaction
         session.getTransaction().commit();
+
         System.out.println("Employee ID="+newHospital.getId());
 
         //terminate session factory, otherwise program won't end
-        HibernateUtil.getSessionAnnotationFactory().close();
-
+        HibernateUtil.getSessionFactory().close();
         return null;
     }
 
-    @Override public boolean deleteHospital() {
+    @Override public boolean deleteHospital(String id) {
         return false;
     }
 
-    @Override public boolean updateHospital() {
+    @Override public boolean updateHospital(String id, Hospital newUpdatedHospital) {
         return false;
     }
 

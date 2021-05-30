@@ -1,12 +1,30 @@
 package com.panduka.ncms.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "user")
 public class User implements E{
+
+    @Id
     private String id;
     private String username;
     private String password;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column( name = "last_name")
     private String lastName;
+
+    @Column( name = "hospital_id")
+    @OneToOne
     private Hospital hospitalId;
+
     private String role;
 
     public User() {

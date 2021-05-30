@@ -1,21 +1,50 @@
 package com.panduka.ncms.entity;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "patient")
 public class Patient implements E{
+
+    @Id
     private String id;
     private String district;
+
+    @Column(name = "location_x")
     private float locationX;
+
+    @Column(name = "location_y")
     private float locationY;
+
+    @Column(name = "severity_level")
     private String severityLevel;
+
     private String gender;
     private String contact;
     private String email;
     private int age;
+
+    @Column(name = "admit_date")
     private Date admitDate;
+
+    @Column(name = "discharge_date")
     private Date dischargedDate;
+
+    @Column(name = "bed_no")
     private int bedNo;
+
+    @Column(name = "admitted_by")
+    @OneToOne
     private User admittedBy;
+
+    @Column(name = "discharged_by")
+    @OneToOne
     private User dischargedBy;
 
     public Patient() {

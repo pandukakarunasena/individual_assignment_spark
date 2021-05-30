@@ -1,7 +1,21 @@
 package com.panduka.ncms.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "patient_queue")
 public class PatientQueue implements E{
+
+    @Id
     private int id;
+
+    @Column(name = "patient_id")
+    @OneToOne
     private Patient patientId;
     private int status;
 

@@ -24,6 +24,8 @@ public class HospitalResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<HospitalDTO> getAllHospitals(){
+
+        System.out.println("get all hospitals endpoint");
         List<HospitalDTO> hospitals = hospitalService.getAllHospitals();
         return hospitals;
     }

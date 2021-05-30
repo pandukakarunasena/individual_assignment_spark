@@ -6,33 +6,34 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
+    private static SessionFactory sessionFactory;
 
-    //Annotation based configuration
-    private static SessionFactory sessionAnnotationFactory;
-
-    private static SessionFactory buildSessionAnnotationFactory() {
-        try {
-            // Create the SessionFactory from hibernate.cfg.xml
+    private static SessionFactory buildSessionFactory(){
+        try{
             Configuration configuration = new Configuration();
-            configuration.configure("hibernate-annotation.cfg.xml");
-            System.out.println("Hibernate Annotation Configuration loaded");
+            configuration.configure("hibernate.cfg.xml");
+            System.out.println("hibernate config loaded");
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-            System.out.println("Hibernate Annotation serviceRegistry created");
+            System.out.println("hibernate service registry created");
 
-            SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+            SessionFactory sessionFactory = configuration.buildSessionFactory( serviceRegistry);
 
             return sessionFactory;
-        }
-        catch (Throwable ex) {
-            // Make sure you log the exception, as it might be swallowed
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
+        }catch (Throwable ex){
+            System.err.println(" Initial session factory creation failed" + ex);
+            throw new ExceptionInInitializerError();
         }
     }
 
-    public static SessionFactory getSessionAnnotationFactory() {
-        if(sessionAnnotationFactory == null) sessionAnnotationFactory = buildSessionAnnotationFactory();
-        return sessionAnnotationFactory;
+    public static SessionFactory getSessionFactory(){
+        if(sessionFactory == null) sessionFactory = buildSessionFactory();
+        return sessionFactory;
     }
+
+    public static void close(){
+        sessionFactory.close();
+    }
+
+
 }
