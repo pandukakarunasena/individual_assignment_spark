@@ -3,41 +3,27 @@ package com.panduka.ncms;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.User;
 import com.panduka.ncms.utils.db.HibernateUtil;
+
 import java.util.List;
-import java.util.function.DoubleConsumer;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class maintest {
 
     public static void main(String[] args) {
-        Session s = HibernateUtil.getSessionFactory().getCurrentSession();
+        System.out.println("hospital dao called");
 
-        Transaction t = s.beginTransaction();
-        System.out.println( "tx created" );
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-        Hospital hospital = new Hospital();
-        User doctor = new User();
-        doctor.setId("doctor1");
-        doctor.setFirstName("jothi");
-        doctor.setLastName("bokka");
-        doctor.setPassword("test");
-        doctor.setHospitalId(null);
-        doctor.setUsername("doctor1hospital1");
-        doctor.setRole("doctor");
+        Transaction tx = session.beginTransaction();
+        System.out.println("executing the query.....");
+        List<Hospital> allHospitals= session.createSQLQuery("select * from hospital").list();
+        tx.commit();
 
-        hospital.setId("hospital1");
-        hospital.setName("hospital test");
-        hospital.setLocationX(500);
-        hospital.setLocationY(500);
-        hospital.setChiefDoctor(doctor);
+        System.out.println( allHospitals);
 
-        s.save(doctor);
-        s.save( hospital);
-        t.commit();
-
-        System.out.println("done....");
+        //terminate session factory, otherwise program won't end
+        HibernateUtil.getSessionFactory().close();
 
     }
 
