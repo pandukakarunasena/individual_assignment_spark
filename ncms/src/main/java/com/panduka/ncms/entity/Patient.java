@@ -4,15 +4,23 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "patient")
 public class Patient implements E{
 
     @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Column(name = "id", nullable=false, length=50)
     private String id;
     private String district;
 
@@ -39,13 +47,14 @@ public class Patient implements E{
     @Column(name = "bed_no")
     private int bedNo;
 
-    @Column(name = "admitted_by")
     @OneToOne
     private User admittedBy;
 
-    @Column(name = "discharged_by")
     @OneToOne
     private User dischargedBy;
+
+    @ManyToOne
+    private PatientQueue patientQueue;
 
     public Patient() {
     }

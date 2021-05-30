@@ -1,10 +1,11 @@
 package com.panduka.ncms.entity;
 
-import javax.persistence.Column;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,11 +13,12 @@ import javax.persistence.Table;
 public class PatientQueue implements E{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "patient_id")
-    @OneToOne
-    private Patient patientId;
+    @OneToMany(mappedBy = "patientQueue")
+    private List<Patient> patients;
+
     private int status;
 
     public PatientQueue() {
@@ -30,12 +32,12 @@ public class PatientQueue implements E{
         this.id = id;
     }
 
-    public Patient getPatientId() {
-        return patientId;
+    public List<Patient> getPatientId() {
+        return patients;
     }
 
-    public void setPatientId(Patient patientId) {
-        this.patientId = patientId;
+    public void setPatientId(List<Patient> patients) {
+        this.patients = patients;
     }
 
     public int getStatus() {
@@ -47,7 +49,7 @@ public class PatientQueue implements E{
     }
 
     @Override public String toString() {
-        return "PatientQueue{" + "id=" + id + ", patientId=" + patientId + ", status=" + status + '}';
+        return "PatientQueue{" + "id=" + id + ", patients=" + patients + ", status=" + status + '}';
     }
 
 }

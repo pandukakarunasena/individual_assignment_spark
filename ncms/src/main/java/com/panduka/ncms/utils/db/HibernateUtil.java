@@ -1,5 +1,9 @@
 package com.panduka.ncms.utils.db;
 
+import com.panduka.ncms.entity.Hospital;
+import com.panduka.ncms.entity.Patient;
+import com.panduka.ncms.entity.PatientQueue;
+import com.panduka.ncms.entity.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -12,6 +16,11 @@ public class HibernateUtil {
         try{
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
+
+            configuration.addAnnotatedClass(Hospital.class);
+            configuration.addAnnotatedClass(User.class);
+            configuration.addAnnotatedClass(Patient.class);
+            configuration.addAnnotatedClass(PatientQueue.class);
             System.out.println("hibernate config loaded");
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();

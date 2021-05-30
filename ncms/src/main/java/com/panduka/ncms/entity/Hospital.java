@@ -8,13 +8,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "hospital")
 public class Hospital implements E{
 
     @Id
-    //@GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Column(name = "id", nullable=false, length=50)
     private String id;
     private String name;
     private String district;
@@ -94,13 +97,14 @@ public class Hospital implements E{
         this.availBeds = availBeds;
     }
 
-//    public User getChiefDoctor() {
-//        return chiefDoctor;
-//    }
-//
-//    public void setChiefDoctor(User chiefDoctor) {
-//        this.chiefDoctor = chiefDoctor;
-//    }
+    public User getChiefDoctor() {
+        return chiefDoctor;
+    }
+
+    public void setChiefDoctor(User chiefDoctor) {
+        this.chiefDoctor = chiefDoctor;
+    }
+
     @Override public String toString() {
         return "Hospital{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", district='" + district + '\''
                 + ", location_x=" + locationX + ", location_y=" + locationY + ", buildDate=" + buildDate
