@@ -1,7 +1,7 @@
 package com.panduka.ncms.services.hospital;
 
 import com.panduka.ncms.dao.HospitalDAO;
-import com.panduka.ncms.dao.HospitalDAOImpl;
+import com.panduka.ncms.dao.impl.HospitalDAOImpl;
 import com.panduka.ncms.dto.HospitalDTO;
 
 import com.panduka.ncms.entity.Hospital;
@@ -38,7 +38,7 @@ public class HospitalServiceImpl implements HospitalService{
     @Override public HospitalDTO createHospital(HospitalDTO newHospitalDTO) {
 
         //convert hospitalDTO to hospital entity
-        // use a mapper to map DTO to entities
+
         Hospital newHospitalEntity =(Hospital) Mapper.convertToEntityObject( newHospitalDTO);
 
         hospitalManager.createHospital(newHospitalEntity);

@@ -1,6 +1,5 @@
 package com.panduka.ncms.dto.impl;
 
-import com.panduka.ncms.dto.DTO;
 import com.panduka.ncms.dto.HospitalDTO;
 import com.panduka.ncms.dto.PatientDTO;
 import com.panduka.ncms.dto.UserDTO;

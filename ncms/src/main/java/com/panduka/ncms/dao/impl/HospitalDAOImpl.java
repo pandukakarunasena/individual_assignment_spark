@@ -1,5 +1,6 @@
-package com.panduka.ncms.dao;
+package com.panduka.ncms.dao.impl;
 
+import com.panduka.ncms.dao.HospitalDAO;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.utils.db.HibernateUtil;
 
@@ -9,7 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-public class HospitalDAOImpl implements HospitalDAO{
+public class HospitalDAOImpl implements HospitalDAO {
 
     SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
