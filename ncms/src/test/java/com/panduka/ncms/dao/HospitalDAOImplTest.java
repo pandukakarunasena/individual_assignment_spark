@@ -41,7 +41,6 @@ class HospitalDAOImplTest {
         doctor.setFirstName("jothi");
         doctor.setLastName("bokka");
         doctor.setPassword("test");
-        doctor.setHospitalId(null);
         doctor.setUsername("doctor1hospital1");
         doctor.setRole("doctor");
 

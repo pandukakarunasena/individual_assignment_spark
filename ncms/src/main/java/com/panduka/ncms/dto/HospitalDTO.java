@@ -1,8 +1,12 @@
 package com.panduka.ncms.dto;
 
-import com.panduka.ncms.dto.impl.UserDTOImpl;
+import java.util.List;
 
 public interface HospitalDTO {
+    String getId();
+
+    void setId( String id);
+
     String getName();
 
     void setName(String name);
@@ -11,9 +15,9 @@ public interface HospitalDTO {
 
     void setNoOfBeds(int noOfBeds);
 
-    int getNoOfPatients();
+    List<PatientDTO> getPatients();
 
-    void setNoOfPatients(int noOfPatients);
+    void setPatients(List<PatientDTO> noOfPatients);
 
     float getX();
 
@@ -23,12 +27,13 @@ public interface HospitalDTO {
 
     void setY(float y);
 
-    UserDTOImpl getChiefDoctorName();
+    UserDTO getChiefDoctor();
 
-    void setChiefDoctorName(UserDTOImpl chiefDoctorName);
+    void setChiefDoctor(UserDTO chiefDoctor);
 
     String getDistrictName();
 
     void setDistrictName(String districtName);
 
+    void addPatient( PatientDTO patient);
 }

@@ -2,32 +2,40 @@ package com.panduka.ncms.dto.impl;
 
 import com.panduka.ncms.dto.DTO;
 import com.panduka.ncms.dto.HospitalDTO;
-import com.panduka.ncms.dto.impl.UserDTOImpl;
-import com.panduka.ncms.entity.User;
+import com.panduka.ncms.dto.PatientDTO;
+import com.panduka.ncms.dto.UserDTO;
 import java.io.Serializable;
+import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class HospitalDTOImpl implements HospitalDTO, Serializable, DTO {
+public class HospitalDTOImpl implements HospitalDTO, Serializable {
+    private String id;
     private String name;
     private int noOfBeds;
-    private int noOfPatients;
+    private List<PatientDTO> patientsList;
     private float x;
     private float y;
-    private UserDTOImpl chiefDoctorName;
+    private UserDTO chiefDoctor;
     private String districtName;
 
     public HospitalDTOImpl() { }
 
-    public HospitalDTOImpl(String name, int noOfBeds, int noOfPatients, float x, float y, UserDTOImpl chiefDoctorName,
+    public HospitalDTOImpl(String name, int noOfBeds, List<PatientDTO> patientsList, float x, float y, UserDTO chiefDoctor,
             String districtName) {
         this.name = name;
         this.noOfBeds = noOfBeds;
-        this.noOfPatients = noOfPatients;
+        this.patientsList = patientsList;
         this.x = x;
         this.y = y;
-        this.chiefDoctorName = chiefDoctorName;
+        this.chiefDoctor = chiefDoctor;
         this.districtName = districtName;
+    }
+
+    @Override public String getId() { return id; }
+
+    @Override public void setId(String id) {
+        this.id = id;
     }
 
     @Override public String getName() {
@@ -46,12 +54,12 @@ public class HospitalDTOImpl implements HospitalDTO, Serializable, DTO {
         this.noOfBeds = noOfBeds;
     }
 
-    @Override public int getNoOfPatients() {
-        return noOfPatients;
+    @Override public List<PatientDTO> getPatients() {
+        return patientsList;
     }
 
-    @Override public void setNoOfPatients(int noOfPatients) {
-        this.noOfPatients = noOfPatients;
+    @Override public void setPatients(List<PatientDTO> patientsList) {
+        this.patientsList = patientsList;
     }
 
     @Override public float getX() {
@@ -70,12 +78,12 @@ public class HospitalDTOImpl implements HospitalDTO, Serializable, DTO {
         this.y = y;
     }
 
-    @Override public UserDTOImpl getChiefDoctorName() {
-        return chiefDoctorName;
+    @Override public UserDTO getChiefDoctor() {
+        return chiefDoctor;
     }
 
-    @Override public void setChiefDoctorName(UserDTOImpl chiefDoctorName) {
-        this.chiefDoctorName = chiefDoctorName;
+    @Override public void setChiefDoctor(UserDTO chiefDoctor) {
+        this.chiefDoctor = chiefDoctor;
     }
 
     @Override public String getDistrictName() {
@@ -84,6 +92,10 @@ public class HospitalDTOImpl implements HospitalDTO, Serializable, DTO {
 
     @Override public void setDistrictName(String districtName) {
         this.districtName = districtName;
+    }
+
+    @Override public void addPatient(PatientDTO patient) {
+        patientsList.add(patient);
     }
 
 }

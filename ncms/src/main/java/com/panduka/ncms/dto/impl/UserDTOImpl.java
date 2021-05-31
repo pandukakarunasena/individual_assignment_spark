@@ -2,10 +2,11 @@ package com.panduka.ncms.dto.impl;
 
 
 import com.panduka.ncms.dto.UserDTO;
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class UserDTOImpl implements UserDTO {
+public class UserDTOImpl implements UserDTO, Serializable {
     private String username;
     private String password;
     private String firstName;
@@ -21,7 +22,6 @@ public class UserDTOImpl implements UserDTO {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.hospitalId = hospitalId;
         this.role = role;
     }
 
@@ -55,14 +55,6 @@ public class UserDTOImpl implements UserDTO {
 
     @Override public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    @Override public HospitalDTOImpl getHospitalId() {
-        return hospitalId;
-    }
-
-    @Override public void setHospitalId(HospitalDTOImpl hospitalId) {
-        this.hospitalId = hospitalId;
     }
 
     @Override public String getRole() {

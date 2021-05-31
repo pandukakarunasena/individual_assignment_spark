@@ -8,5 +8,7 @@ public interface HospitalService {
     List<HospitalDTO> getAllHospitals();
     HospitalDTO getHospitalById(String id);
     HospitalDTO createHospital( HospitalDTO newHospital);
+    boolean deleteHospitalById(String id);
+
 }
 

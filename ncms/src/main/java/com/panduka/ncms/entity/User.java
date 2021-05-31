@@ -26,9 +26,6 @@ public class User implements E{
     @Column( name = "last_name")
     private String lastName;
 
-    @OneToOne
-    private Hospital hospitalId;
-
     private String role;
 
     public User() {
@@ -74,14 +71,6 @@ public class User implements E{
         this.lastName = lastName;
     }
 
-    public Hospital getHospitalId() {
-        return hospitalId;
-    }
-
-    public void setHospitalId(Hospital hospitalId) {
-        this.hospitalId = hospitalId;
-    }
-
     public String getRole() {
         return role;
     }
@@ -92,7 +81,7 @@ public class User implements E{
 
     @Override public String toString() {
         return "User{" + "id='" + id + '\'' + ", username='" + username + '\'' + ", password='" + password + '\''
-                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", hospitalId=" + hospitalId
+                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\''
                 + ", role='" + role + '\'' + '}';
     }
 

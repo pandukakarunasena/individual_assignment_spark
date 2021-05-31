@@ -1,7 +1,5 @@
 package com.panduka.ncms.dto;
 
-import com.panduka.ncms.dto.impl.HospitalDTOImpl;
-
 public interface UserDTO {
     String getUsername();
 
@@ -18,10 +16,6 @@ public interface UserDTO {
     String getLastName();
 
     void setLastName(String lastName);
-
-    HospitalDTOImpl getHospitalId();
-
-    void setHospitalId(HospitalDTOImpl hospitalId);
 
     String getRole();
 

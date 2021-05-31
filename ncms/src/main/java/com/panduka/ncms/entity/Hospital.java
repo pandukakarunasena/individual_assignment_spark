@@ -1,10 +1,13 @@
 package com.panduka.ncms.entity;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
@@ -35,6 +38,9 @@ public class Hospital implements E{
 
     @OneToOne
     private User chiefDoctor;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "hospital")
+    private List<Patient> patientList;
 
     public Hospital() {
 
@@ -102,6 +108,14 @@ public class Hospital implements E{
 
     public void setChiefDoctor(User chiefDoctor) {
         this.chiefDoctor = chiefDoctor;
+    }
+
+    public List<Patient> getPatientList() {
+        return patientList;
+    }
+
+    public void setPatientList(List<Patient> patientList) {
+        this.patientList = patientList;
     }
 
     @Override public String toString() {

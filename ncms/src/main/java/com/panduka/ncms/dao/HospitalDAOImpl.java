@@ -4,32 +4,36 @@ import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.utils.db.HibernateUtil;
 
 import java.util.List;
-import javax.persistence.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class HospitalDAOImpl implements HospitalDAO{
 
-    @Override public List<Hospital> getAllHospitals() {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = session.beginTransaction();
-        List<Hospital> allHospitals= session.createSQLQuery("select * from hospital").list();
-        tx.commit();
+    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
-        //terminate session factory, otherwise program won't end
-        HibernateUtil.getSessionFactory().close();
+    @Override public List getAllHospitals() {
+        System.out.println( "get all hospitals DAO");
+        Session session = sessionFactory.openSession();
+
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from Hospital");
+        List allHospitals= q.list();
+        tx.commit();
+        session.close();
 
         return allHospitals;
     }
 
     @Override public Hospital getHospitalById(String id) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = session.getTransaction();
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
 
-        id = "402888e679bf31b60179bf31be090001"; //test id
         Hospital selectedHospitalById = session.get( Hospital.class, id);
         tx.commit();
-        HibernateUtil.getSessionFactory().close();
+        session.close();
+
         System.out.println(selectedHospitalById);
 
         return selectedHospitalById;
@@ -38,37 +42,32 @@ public class HospitalDAOImpl implements HospitalDAO{
 
     @Override public Hospital createHospital( Hospital newHospital) {
 
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(newHospital);
         session.getTransaction().commit();
-
+        session.close();
         System.out.println("Employee ID="+newHospital.getId());
 
         //terminate session factory, otherwise program won't end
-        HibernateUtil.getSessionFactory().close();
+        //HibernateUtil.getSessionFactory().close();
 
         return null;//send the created hospital data
     }
 
     @Override public boolean deleteHospital(String id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = session.getTransaction();
+        Transaction tx = session.beginTransaction();
 
-        id = "402888e679bf31b60179bf31be090001"; //test id
+        Hospital hospitalToBeDeleted = session.get( Hospital.class, id);
 
-        Query query = session.createQuery("delete Hospital where id = :id");
-        query.setParameter("id", id);
-
-        int result = query.executeUpdate();
-
-        if (result > 0) {
-            System.out.println("Expensive products was removed");
+        if( hospitalToBeDeleted != null){
+            session.delete( hospitalToBeDeleted);
             return true;
         }
 
         tx.commit();
-        HibernateUtil.getSessionFactory().close();
+        session.close();
 
         return false;
     }

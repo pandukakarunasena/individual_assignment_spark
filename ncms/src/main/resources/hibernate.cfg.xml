@@ -18,7 +18,7 @@
 
         <property name="hbm2ddl.auto">update</property>
 
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
 
         <!-- Mapping with model class containing annotations -->
         <mapping class="com.panduka.ncms.entity.Hospital"/>
