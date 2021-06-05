@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class UserDTOImpl implements UserDTO, Serializable {
+    private String id;
     private String username;
     private String password;
     private String firstName;
@@ -63,6 +64,14 @@ public class UserDTOImpl implements UserDTO, Serializable {
 
     @Override public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override public String getId() {
+        return this.id;
     }
 
 }

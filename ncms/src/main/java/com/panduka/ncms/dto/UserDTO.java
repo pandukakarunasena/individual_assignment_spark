@@ -21,4 +21,8 @@ public interface UserDTO {
 
     void setRole(String role);
 
+    void setId(String id);
+
+    String getId();
+
 }

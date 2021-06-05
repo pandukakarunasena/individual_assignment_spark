@@ -71,7 +71,17 @@ public class Mapper {
             return hospitalDTO;
         }
         if( entity instanceof User){
+            UserDTO userDTO = new UserDTOImpl();
+            User userEntity = ( User) entity;
 
+            userDTO.setId( userEntity.getId());
+            userDTO.setFirstName( userEntity.getFirstName());
+            userDTO.setLastName( userEntity.getLastName());
+            //userDTO.setPassword();
+            //userDTO.setUsername();
+            userDTO.setRole( userEntity.getRole());
+
+            return userDTO;
         }
         if( entity instanceof Patient){
 

@@ -28,6 +28,9 @@ public class User implements E{
 
     private String role;
 
+    @OneToOne( mappedBy = "chiefDoctor")
+    private Hospital hospital;
+
     public User() {
     }
 

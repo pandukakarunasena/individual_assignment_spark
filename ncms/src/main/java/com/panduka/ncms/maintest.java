@@ -1,34 +1,21 @@
 package com.panduka.ncms;
 
-import com.panduka.ncms.dto.HospitalDTO;
-import com.panduka.ncms.dto.impl.HospitalDTOImpl;
+
 import com.panduka.ncms.entity.Hospital;
+import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.entity.User;
-import com.panduka.ncms.helpers.Mapper;
 import com.panduka.ncms.utils.db.HibernateUtil;
 
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 
 public class maintest {
 
-    public static void main(String[] args) {
-//        System.out.println("hospital dao called");
-//
-//        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-//
-//        Transaction tx = session.beginTransaction();
-//        System.out.println("executing the query.....");
-//        List<Hospital> allHospitals= session.createSQLQuery("select * from hospital").list();
-//        tx.commit();
-//
-//        System.out.println( allHospitals);
-//
-//        //terminate session factory, otherwise program won't end
-//        HibernateUtil.getSessionFactory().close();
-
+    public static void addHospitalDetails(){
         Session s = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = s.beginTransaction();
 
@@ -57,7 +44,70 @@ public class maintest {
 
         }
         tx.commit();
-
     }
+
+    public static  void getAllHospitalTest(){
+            System.out.println("hospital dao called");
+
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+            Transaction tx = session.beginTransaction();
+            System.out.println("executing the query.....");
+            List<Hospital> allHospitals= session.createSQLQuery("select * from hospital").list();
+            tx.commit();
+
+            System.out.println( allHospitals);
+    }
+
+    public static  void addPatientDetails(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        for ( int i = 0; i < 5; i++){
+
+            User doctor = new User();
+            doctor.setRole("doc");
+            doctor.setUsername("doc"+i);
+            doctor.setLastName("lastName"+i);
+            doctor.setFirstName("firstName"+i);
+
+            Patient p = new Patient();
+            p.setAdmitDate( new Date());
+            p.setAge( 20+i);
+            p.setDischargedBy( doctor);
+            p.setLocationX(10+i);
+            p.setLocationY(5*i);
+            p.setSeverityLevel("bad");
+
+            session.save( p);
+            session.save( doctor);
+        }
+        tx.commit();
+    }
+
+    public static void getChiefDoctorByHospitalIdTest(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        System.out.println("executing the query.....");
+        NativeQuery q = session.createSQLQuery("select chiefDoctor_id from hospital where hospital.id =:id");
+        q.setParameter("id", "402888e879dd32080179dd322a190027");
+        String doctor = (String) q.getSingleResult();
+
+        NativeQuery q2 = session.createSQLQuery("select * from user where user.id=:id");
+        q2.setParameter("id", doctor);
+        q2.addEntity( User.class);
+        User doctorDetails = (User) q2.getSingleResult();
+
+        tx.commit();
+
+        System.out.println( doctor);
+        System.out.println( doctorDetails);
+    }
+
+    public static void main(String[] args) {
+        addPatientDetails();
+    }
+
 
 }

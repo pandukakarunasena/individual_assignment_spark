@@ -86,12 +86,13 @@ public class HospitalDTOImpl implements HospitalDTO, Serializable {
     }
 
     @Override public String getDistrictName() {
-        return null;
+        return districtName;
     }
 
     @Override public void setDistrictName(String districtName) {
         this.districtName = districtName;
     }
+
 
     @Override public void addPatient(PatientDTO patient) {
         patientsList.add(patient);

@@ -19,6 +19,7 @@ public class PatientsResource {
     @GET
     @Path("/patient")
     @Produces(MediaType.APPLICATION_JSON)
+    //patient can see the queue number or hospitals can load the patient by id
     public PatientDTO getPatientById(@QueryParam("id") String id){
 
         return null;
