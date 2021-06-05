@@ -105,8 +105,36 @@ public class maintest {
         System.out.println( doctorDetails);
     }
 
+    public static  void getPatientById( ){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        Patient patient = session.get( Patient.class, "402888e879dd452d0179dd4531030000");
+
+        if( patient != null){
+            System.out.println(patient);
+        }
+
+        tx.commit();
+        session.close();
+
+    }
+
+    public static void getPatientBySeverity(String severity) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        Query query = session.createQuery( "From Patient where severityLevel=:severity");
+        query.setParameter( "severity", severity);
+
+        List< Patient> severityPatientList = query.list();
+        System.out.println( severityPatientList.get(0).getDischargedBy());
+        System.out.println( severityPatientList);
+
+    }
+
     public static void main(String[] args) {
-        addPatientDetails();
+        getPatientBySeverity( "bad");
     }
 
 

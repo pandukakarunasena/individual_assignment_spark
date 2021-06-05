@@ -171,6 +171,22 @@ public class Patient implements E{
         this.dischargedBy = dischargedBy;
     }
 
+    public PatientQueue getPatientQueue() {
+        return patientQueue;
+    }
+
+    public void setPatientQueue(PatientQueue patientQueue) {
+        this.patientQueue = patientQueue;
+    }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
     @Override public String toString() {
         return "Patient{" + "id='" + id + '\'' + ", district='" + district + '\'' + ", locationX=" + locationX
                 + ", locationY=" + locationY + ", severityLevel='" + severityLevel + '\'' + ", gender='" + gender + '\''

@@ -1,6 +1,8 @@
 package com.panduka.ncms.dto.impl;
 
+import com.panduka.ncms.dto.HospitalDTO;
 import com.panduka.ncms.dto.PatientDTO;
+import com.panduka.ncms.dto.UserDTO;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.PatientQueue;
 import com.panduka.ncms.entity.User;
@@ -22,10 +24,10 @@ public class PatientDTOImpl implements PatientDTO, Serializable{
     private Date admitDate;
     private Date dischargedDate;
     private int bedNo;
-    private User admittedBy;
-    private User dischargedBy;
+    private UserDTO admittedBy;
+    private UserDTO dischargedBy;
     private PatientQueue patientQueue;
-    private Hospital hospital;
+    private HospitalDTO hospital;
 
     public PatientDTOImpl() {
     }
@@ -126,19 +128,19 @@ public class PatientDTOImpl implements PatientDTO, Serializable{
         this.bedNo = bedNo;
     }
 
-    public User getAdmittedBy() {
+    public UserDTO getAdmittedBy() {
         return admittedBy;
     }
 
-    public void setAdmittedBy(User admittedBy) {
+    public void setAdmittedBy(UserDTO admittedBy) {
         this.admittedBy = admittedBy;
     }
 
-    public User getDischargedBy() {
+    public UserDTO getDischargedBy() {
         return dischargedBy;
     }
 
-    public void setDischargedBy(User dischargedBy) {
+    public void setDischargedBy(UserDTO dischargedBy) {
         this.dischargedBy = dischargedBy;
     }
 
@@ -150,11 +152,11 @@ public class PatientDTOImpl implements PatientDTO, Serializable{
         this.patientQueue = patientQueue;
     }
 
-    public Hospital getHospital() {
+    public HospitalDTO getHospital() {
         return hospital;
     }
 
-    public void setHospital(Hospital hospital) {
+    public void setHospital(HospitalDTO hospital) {
         this.hospital = hospital;
     }
 

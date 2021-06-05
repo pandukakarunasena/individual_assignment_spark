@@ -21,6 +21,7 @@ public class PatientDAOImpl implements PatientDAO {
 
         Patient patient = session.get( Patient.class, id);
 
+        System.out.println( "patient dao getPatientById: "+patient);
         if( patient != null){
             return  patient;
         }
@@ -35,6 +36,7 @@ public class PatientDAOImpl implements PatientDAO {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
+        //the bed number and the hospital should be taken as the requirement.
         session.save( patient);
 
         tx.commit();

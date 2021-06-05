@@ -2,7 +2,6 @@ package com.panduka.ncms.dto;
 
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.PatientQueue;
-import com.panduka.ncms.entity.User;
 import java.util.Date;
 
  public interface PatientDTO {
@@ -30,12 +29,12 @@ import java.util.Date;
      void setDischargedDate(Date dischargedDate);
      int getBedNo() ;
      void setBedNo(int bedNo) ;
-     User getAdmittedBy();
-     void setAdmittedBy(User admittedBy);
-     User getDischargedBy();
-     void setDischargedBy(User dischargedBy);
+     UserDTO getAdmittedBy();
+     void setAdmittedBy(UserDTO admittedBy);
+     UserDTO getDischargedBy();
+     void setDischargedBy(UserDTO dischargedBy);
      PatientQueue getPatientQueue();
      void setPatientQueue(PatientQueue patientQueue);
-     Hospital getHospital();
-     void setHospital(Hospital hospital);
+     HospitalDTO getHospital();
+     void setHospital(HospitalDTO hospital);
 }

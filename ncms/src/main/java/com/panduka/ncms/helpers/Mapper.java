@@ -13,6 +13,7 @@ import com.panduka.ncms.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Mapper {
     public  static Object convertToEntityObject(Object dto) {
@@ -49,8 +50,8 @@ public class Mapper {
         if( entity instanceof Hospital){
             HospitalDTO hospitalDTO = new HospitalDTOImpl();
             Hospital hospitalEntity = (Hospital) entity;
-            List<PatientDTO> patientListDTO= new ArrayList<>();
 
+            List<PatientDTO> patientListDTO= new ArrayList<>();
             //need to come up with another way to convert patientEntity list to patientDTOList
             if( hospitalEntity.getPatientList() != null){
                 for( Patient p: hospitalEntity.getPatientList()){
@@ -84,6 +85,27 @@ public class Mapper {
             return userDTO;
         }
         if( entity instanceof Patient){
+            PatientDTO patientDTO = new PatientDTOImpl();
+            Patient patient = ( Patient) entity;
+
+            patientDTO.setId( patient.getId());
+            patientDTO.setAdmitDate( patient.getAdmitDate());
+            patientDTO.setAge( patient.getAge());
+            patientDTO.setBedNo( patient.getBedNo());
+            patientDTO.setDischargedDate( patient.getDischargedDate());
+            patientDTO.setDistrict( patient.getDistrict());
+            patientDTO.setEmail( patient.getEmail());
+            patientDTO.setGender( patient.getGender());
+            patientDTO.setLocationX( patient.getLocationX());
+            patientDTO.setLocationY( patient.getLocationY());
+            patientDTO.setSeverityLevel( patient.getSeverityLevel());
+
+            patientDTO.setAdmittedBy( (UserDTO) Mapper.convertToDTO( patient.getAdmittedBy()));
+            patientDTO.setDischargedBy( (UserDTO) Mapper.convertToDTO( patient.getDischargedBy()));
+            patientDTO.setHospital((HospitalDTO) Mapper.convertToDTO( patient.getHospital()));
+            //patientDTO.setPatientQueue( (PatientDTO) Mapper.convertToDTO( patient.getPatientQueue()));
+
+            return patientDTO;
 
         }
         if( entity instanceof PatientQueue){
