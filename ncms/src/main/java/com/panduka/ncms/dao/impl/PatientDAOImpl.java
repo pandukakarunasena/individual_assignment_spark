@@ -1,5 +1,8 @@
 package com.panduka.ncms.dao.impl;
 
+import static com.panduka.ncms.utils.Constants.GET_ALL_PATIENTS_BY_SEVERITY_QUERY;
+import static com.panduka.ncms.utils.Constants.GET_ALL_PATIENTS_QUERY;
+
 import com.panduka.ncms.dao.PatientDAO;
 import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.utils.db.HibernateUtil;
@@ -21,7 +24,6 @@ public class PatientDAOImpl implements PatientDAO {
 
         Patient patient = session.get( Patient.class, id);
 
-        System.out.println( "patient dao getPatientById: "+patient);
         if( patient != null){
             return  patient;
         }
@@ -68,7 +70,7 @@ public class PatientDAOImpl implements PatientDAO {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        Query query = session.createQuery( "From Patient where severityLevel=:severity");
+        Query query = session.createQuery( GET_ALL_PATIENTS_BY_SEVERITY_QUERY);
         query.setParameter( "severity", severity);
 
         List< Patient> severityPatientList = query.list();
@@ -80,7 +82,7 @@ public class PatientDAOImpl implements PatientDAO {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        Query query = session.createQuery("from Patient ");
+        Query query = session.createQuery( GET_ALL_PATIENTS_QUERY);
         List< Patient> patientList = query.list();
 
         tx.commit();

@@ -30,7 +30,7 @@ public class HospitalResource {
     @Path("/hospital")
     @Produces(MediaType.APPLICATION_JSON)
     public HospitalDTO getHospitalById(@QueryParam("id") String id){
-        System.out.println( "get hospital by id endpoint called");
+
         HospitalDTO hospital = hospitalService.getHospitalById(id);
 
         return hospital;
@@ -41,7 +41,7 @@ public class HospitalResource {
     @Path("/hospital")
     @Produces( MediaType.APPLICATION_JSON)
     public boolean deleteHospitalById(@QueryParam("id") String id){
-        System.out.println( "delete hospital by id endpoint called");
+
         boolean deleted = hospitalService.deleteHospitalById( id);
         return deleted;
     }
@@ -61,7 +61,7 @@ public class HospitalResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<HospitalDTO> getAllHospitals(){
-        System.out.println("get all hospitals endpoint");
+
 
         List<HospitalDTO> hospitals = hospitalService.getAllHospitals();
         System.out.println( hospitals);

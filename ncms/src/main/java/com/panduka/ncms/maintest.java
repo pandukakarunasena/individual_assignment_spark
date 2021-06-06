@@ -8,6 +8,8 @@ import com.panduka.ncms.utils.db.HibernateUtil;
 
 import java.util.Date;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
@@ -133,8 +135,21 @@ public class maintest {
 
     }
 
+    public static void loggerConfigurationTesting(){
+        logger.info( "loggerConfigurationTesting method called");
+
+    }
+
+    private static final Logger logger = LogManager.getLogger( maintest.class);
+
     public static void main(String[] args) {
-        getPatientBySeverity( "bad");
+        logger.info( "the main() method is called");
+
+        loggerConfigurationTesting();
+
+        logger.warn( "test warning message");
+        logger.error( "test error message");
+
     }
 
 

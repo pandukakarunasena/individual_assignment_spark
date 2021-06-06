@@ -10,5 +10,13 @@ public class Constants {
     public final static String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
 
 
+    //Database CRUD queries
+    public final static String GET_ALL_HOSPITALS_QUERY= "from Hospital";
+    public final static String GET_ALL_PATIENTS_BY_SEVERITY_QUERY="From Patient where severityLevel=:severity" ;
+    public final static String GET_ALL_PATIENTS_QUERY= "from Patient ";
+
+    //Jersey config package name
+    public final static String PACKAGE_NAME_FOR_RESOURCES = "com.panduka.ncms.resources";
+
 
 }

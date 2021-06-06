@@ -1,5 +1,7 @@
 package com.panduka.ncms.dao.impl;
 
+import static com.panduka.ncms.utils.Constants.GET_ALL_HOSPITALS_QUERY;
+
 import com.panduka.ncms.dao.HospitalDAO;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.utils.db.HibernateUtil;
@@ -15,11 +17,11 @@ public class HospitalDAOImpl implements HospitalDAO {
     SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     @Override public List getAllHospitals() {
-        System.out.println( "get all hospitals DAO");
+
         Session session = sessionFactory.openSession();
 
         Transaction tx = session.beginTransaction();
-        Query q = session.createQuery("from Hospital");
+        Query q = session.createQuery( GET_ALL_HOSPITALS_QUERY);
         List allHospitals= q.list();
         tx.commit();
         session.close();
@@ -48,7 +50,7 @@ public class HospitalDAOImpl implements HospitalDAO {
         session.save(newHospital);
         session.getTransaction().commit();
         session.close();
-        System.out.println("Employee ID="+newHospital.getId());
+
 
         //terminate session factory, otherwise program won't end
         //HibernateUtil.getSessionFactory().close();
