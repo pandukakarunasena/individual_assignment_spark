@@ -1,6 +1,7 @@
 package com.panduka.ncms.dao.impl;
 
 import static com.panduka.ncms.utils.Constants.GET_ALL_HOSPITALS_QUERY;
+import static com.panduka.ncms.utils.Constants.GET_ALL_PATIENTS_BY_HOSPITAL_ID_QUERY;
 
 import com.panduka.ncms.dao.HospitalDAO;
 import com.panduka.ncms.entity.Hospital;
@@ -89,7 +90,7 @@ public class HospitalDAOImpl implements HospitalDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
 
-        Query q = session.createQuery("select patientList from Hospital h where h.id=:id");
+        Query q = session.createQuery( GET_ALL_PATIENTS_BY_HOSPITAL_ID_QUERY);
         q.setParameter( "id", id);
 
         List< Patient> patientList = q.list();

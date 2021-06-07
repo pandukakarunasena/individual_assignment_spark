@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface PatientDAO {
      Patient getPatientById(String id);
-     void addPatient(Patient patient);
+     boolean  addPatient(Patient patient);
      boolean deletePatient(String id);
      boolean updatePatient(String id, Patient newPatientDetails);
      List<Patient> getPatientBySeverity(String severity);

@@ -9,55 +9,79 @@ import com.panduka.ncms.utils.db.HibernateUtil;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+
 public class PatientDAOImpl implements PatientDAO {
 
     SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    Logger logger = LogManager.getLogger( PatientDAOImpl.class);
 
     @Override public Patient getPatientById(String id) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        Patient patient = session.get( Patient.class, id);
+        try{
+            Patient patient = session.get( Patient.class, id);
 
-        if( patient != null){
-            return  patient;
+            if( patient != null){
+                return  patient;
+            }
+            tx.commit();
+
+        }catch (Exception ex){
+            logger.error( "getPatientById() " + ex.getMessage());
+            logger.error( ex.getCause());
+        }finally {
+            session.close();
         }
-
-        tx.commit();
-        session.close();
 
         return null;
     }
 
-    @Override public void addPatient(Patient patient) {
+    @Override public boolean addPatient(Patient patient) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        //the bed number and the hospital should be taken as the requirement.
-        session.save( patient);
+        try{
+            //the bed number and the hospital should be taken as the requirement.
+            session.save( patient);
+            tx.commit();
 
-        tx.commit();
-        session.close();
+        }catch (Exception ex){
+            logger.error( "addPatient() " + ex.getMessage());
+            logger.error( ex.getCause());
+        }finally {
+            session.close();
+        }
+
+        return true;
     }
 
     @Override public boolean deletePatient(String id) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        Patient patient = session.get( Patient.class, id);
+        try{
+            Patient patient = session.get( Patient.class, id);
 
-        if( patient != null){
-            session.delete( patient);
-            return true;
+            if( patient != null){
+                session.delete( patient);
+                return true;
+            }
+            tx.commit();
+
+        }catch ( Exception ex){
+            logger.error( "deletePatient() " + ex.getMessage());
+            logger.error( ex.getCause());
+        }finally {
+            session.close();
         }
-
-        tx.commit();
-        session.close();
 
         return false;
     }
@@ -70,26 +94,41 @@ public class PatientDAOImpl implements PatientDAO {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        Query query = session.createQuery( GET_ALL_PATIENTS_BY_SEVERITY_QUERY);
-        query.setParameter( "severity", severity);
+        try{
+            Query query = session.createQuery( GET_ALL_PATIENTS_BY_SEVERITY_QUERY);
+            query.setParameter( "severity", severity);
 
-        List< Patient> severityPatientList = query.list();
+            List< Patient> severityPatientList = query.list();
+            tx.commit();
+            return severityPatientList;
 
-        return severityPatientList;
+        }catch(Exception ex){
+            logger.error( "getPatientBySeverity() " + ex.getMessage());
+            logger.error( ex.getCause());
+        }finally{
+            session.close();
+        }
+
+        return null;
     }
 
     @Override public List<Patient> getAllPatients() {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        Query query = session.createQuery( GET_ALL_PATIENTS_QUERY);
-        List< Patient> patientList = query.list();
+        try{
+            Query query = session.createQuery( GET_ALL_PATIENTS_QUERY);
+            List< Patient> patientList = query.list();
+            tx.commit();
+            return patientList;
 
-        tx.commit();
-        session.close();
+        }catch( Exception ex){
+            logger.error( "getPatientBySeverity() " + ex.getMessage());
+            logger.error( ex.getCause());
+        }finally{
+            session.close();
+        }
 
-        return patientList;
-
+        return null;
     }
-
 }

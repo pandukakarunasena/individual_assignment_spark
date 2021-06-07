@@ -12,8 +12,9 @@ public class Constants {
 
     //Database CRUD queries
     public final static String GET_ALL_HOSPITALS_QUERY= "from Hospital";
-    public final static String GET_ALL_PATIENTS_BY_SEVERITY_QUERY="From Patient where severityLevel=:severity" ;
-    public final static String GET_ALL_PATIENTS_QUERY= "from Patient ";
+    public final static String GET_ALL_PATIENTS_BY_SEVERITY_QUERY="from Patient where severityLevel=:severity" ;
+    public final static String GET_ALL_PATIENTS_QUERY= "from Patient";
+    public final static String GET_ALL_PATIENTS_BY_HOSPITAL_ID_QUERY = "select patientList from Hospital h where h.id=:id";
 
     //Jersey config package name
     public final static String PACKAGE_NAME_FOR_RESOURCES = "com.panduka.ncms.resources";

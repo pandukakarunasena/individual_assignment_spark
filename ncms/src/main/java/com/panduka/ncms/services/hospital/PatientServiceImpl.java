@@ -2,6 +2,7 @@ package com.panduka.ncms.services.hospital;
 
 import com.panduka.ncms.dao.PatientDAO;
 import com.panduka.ncms.dao.impl.PatientDAOImpl;
+import com.panduka.ncms.dto.AddPatientDTO;
 import com.panduka.ncms.dto.PatientDTO;
 import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.helpers.Mapper;
@@ -53,8 +54,14 @@ public class PatientServiceImpl implements PatientService{
 
     }
 
-    @Override public void addPatient(PatientDTO patient) {
+    @Override public boolean addPatient(AddPatientDTO addPatientDTO) {
 
+        //map the addPatientDTO with the Patient entity
+
+        Patient patient = new Patient();
+
+        boolean patientCreated = patientManager.addPatient( patient);
+        return  patientCreated;
     }
 
     @Override public boolean updatePatient(String id, PatientDTO newPatientDetails) {
