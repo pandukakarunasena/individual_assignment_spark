@@ -1,6 +1,7 @@
 package com.panduka.ncms.resources;
 
 import com.panduka.ncms.dto.HospitalDTO;
+import com.panduka.ncms.dto.PatientDTO;
 import com.panduka.ncms.dto.impl.HospitalDTOImpl;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.services.hospital.HospitalService;
@@ -16,14 +17,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Path("/hospitals")
 public class HospitalResource {
 
     HospitalService hospitalService = new HospitalServiceImpl();
+    Logger logger = LogManager.getLogger( HospitalResource.class);
 
     //endpoint - get hospital by id - api/hospitals/hospital?id="{id}"
     @GET
@@ -67,6 +71,17 @@ public class HospitalResource {
         System.out.println( hospitals);
 
         return hospitals;
+    }
+
+
+    @GET
+    @Path( "/patients")
+    @Produces( MediaType.APPLICATION_JSON)
+    public List<PatientDTO> getPatientByHospital(@QueryParam("id") String id){
+
+        List< PatientDTO> patientDTOList = hospitalService.getPatientsByHospital( id);
+
+        return patientDTOList;
     }
 
 

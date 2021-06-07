@@ -53,7 +53,7 @@ public class Patient implements E{
     @ManyToOne
     private PatientQueue patientQueue;
 
-    @ManyToOne
+    @ManyToOne()
     private Hospital hospital;
 
     public Patient() {

@@ -1,6 +1,5 @@
 package com.panduka.ncms;
 
-
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.entity.User;
@@ -8,6 +7,7 @@ import com.panduka.ncms.utils.db.HibernateUtil;
 
 import java.util.Date;
 import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -62,8 +62,14 @@ public class maintest {
     }
 
     public static  void addPatientDetails(){
+        System.out.println(" add patient details method");
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
+
+        Query q = session.createQuery( "from Hospital h where h.id=:id");
+        q.setParameter("id", "402888e879dd32080179dd322a130003");
+        Hospital hospital =(Hospital) q.getSingleResult();
+
 
         for ( int i = 0; i < 5; i++){
 
@@ -80,6 +86,7 @@ public class maintest {
             p.setLocationX(10+i);
             p.setLocationY(5*i);
             p.setSeverityLevel("bad");
+            p.setHospital( hospital);
 
             session.save( p);
             session.save( doctor);
@@ -140,15 +147,35 @@ public class maintest {
 
     }
 
+    public static void getPatientListByHospital(){
+
+
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try{
+
+
+            Query q = session.createQuery("select patientList from Hospital h where h.id=:id");
+            q.setParameter( "id", "402888e879dd32080179dd322a130003");
+
+
+            List patientList = q.list();
+
+            tx.commit();
+            System.out.println( patientList);
+        }catch( NullPointerException ex){
+            tx.rollback();
+            System.out.println( ex);
+            System.out.println( ex.getMessage() + " " + ex.getCause());
+        }
+
+
+    }
     private static final Logger logger = LogManager.getLogger( maintest.class);
 
     public static void main(String[] args) {
-        logger.info( "the main() method is called");
-
-        loggerConfigurationTesting();
-
-        logger.warn( "test warning message");
-        logger.error( "test error message");
+       getPatientListByHospital();
 
     }
 

@@ -47,6 +47,7 @@ public class Mapper {
     }
 
     public static Object convertToDTO(Object entity) {
+
         if( entity instanceof Hospital){
             HospitalDTO hospitalDTO = new HospitalDTOImpl();
             Hospital hospitalEntity = (Hospital) entity;
@@ -54,9 +55,13 @@ public class Mapper {
             List<PatientDTO> patientListDTO= new ArrayList<>();
             //need to come up with another way to convert patientEntity list to patientDTOList
             if( hospitalEntity.getPatientList() != null){
+                System.out.println( "patients are found");
                 for( Patient p: hospitalEntity.getPatientList()){
-                    PatientDTO patientDTO = (PatientDTO) p;
-                    patientListDTO.add( patientDTO);
+                    if( !(p instanceof PatientDTO)){
+                        PatientDTO patientDTO = (PatientDTO) Mapper.convertToDTO( p);
+                        patientListDTO.add( patientDTO);
+                    }
+
                 }
             }
 
@@ -102,7 +107,7 @@ public class Mapper {
 
             patientDTO.setAdmittedBy( (UserDTO) Mapper.convertToDTO( patient.getAdmittedBy()));
             patientDTO.setDischargedBy( (UserDTO) Mapper.convertToDTO( patient.getDischargedBy()));
-            patientDTO.setHospital((HospitalDTO) Mapper.convertToDTO( patient.getHospital()));
+            patientDTO.setHospital( (HospitalDTO) Mapper.convertToDTO( patient.getHospital()));
             //patientDTO.setPatientQueue( (PatientDTO) Mapper.convertToDTO( patient.getPatientQueue()));
 
             return patientDTO;

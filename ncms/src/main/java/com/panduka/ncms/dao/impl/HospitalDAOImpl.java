@@ -4,9 +4,14 @@ import static com.panduka.ncms.utils.Constants.GET_ALL_HOSPITALS_QUERY;
 
 import com.panduka.ncms.dao.HospitalDAO;
 import com.panduka.ncms.entity.Hospital;
+import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.utils.db.HibernateUtil;
 
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -15,9 +20,10 @@ import org.hibernate.query.Query;
 public class HospitalDAOImpl implements HospitalDAO {
 
     SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    private static final Logger logger = LogManager.getLogger( HospitalDAOImpl.class);
 
     @Override public List getAllHospitals() {
-
+        logger.info( "getAllHospitals() method called: HospitalDAOImpl class");
         Session session = sessionFactory.openSession();
 
         Transaction tx = session.beginTransaction();
@@ -77,6 +83,18 @@ public class HospitalDAOImpl implements HospitalDAO {
 
     @Override public boolean updateHospital(String id, Hospital newUpdatedHospital) {
         return false;
+    }
+
+    @Override public List<Patient> getPatientsByHospital(String id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        Query q = session.createQuery("select patientList from Hospital h where h.id=:id");
+        q.setParameter( "id", id);
+
+        List< Patient> patientList = q.list();
+
+        return patientList;
     }
 
 }

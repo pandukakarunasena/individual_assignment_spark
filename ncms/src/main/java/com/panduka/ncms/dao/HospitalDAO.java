@@ -1,6 +1,7 @@
 package com.panduka.ncms.dao;
 
 import com.panduka.ncms.entity.Hospital;
+import com.panduka.ncms.entity.Patient;
 import java.util.List;
 
 public interface HospitalDAO {
@@ -11,5 +12,6 @@ public interface HospitalDAO {
     boolean deleteHospital(String id);
     boolean updateHospital(String id, Hospital newHospital);
 
+    List<Patient> getPatientsByHospital(String id);
 
 }
