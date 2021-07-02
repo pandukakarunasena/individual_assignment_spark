@@ -56,7 +56,10 @@ public class PatientServiceImpl implements PatientService{
 
     @Override public boolean addPatient(AddPatientDTO addPatientDTO) {
 
+        //select a hospital and a bed no
         //map the addPatientDTO with the Patient entity
+        //save the details
+        //send the hospital bed no and serial no to the user
 
         Patient patient = new Patient();
 
@@ -65,6 +68,9 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override public boolean updatePatient(String id, PatientDTO newPatientDetails) {
+        //add the admitted date,admitted by, severity at the entrance by a doctor
+        //update the discharged date discharged by after a doctor discharges the patient
+
         return false;
     }
 }

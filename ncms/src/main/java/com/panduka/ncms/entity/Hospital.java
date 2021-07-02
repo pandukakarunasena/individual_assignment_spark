@@ -1,5 +1,6 @@
 package com.panduka.ncms.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -14,7 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "hospital")
-public class Hospital implements E{
+public class Hospital {
 
     @Id
     @GeneratedValue(generator="system-uuid")
@@ -42,8 +43,11 @@ public class Hospital implements E{
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "hospital")
     private List<Patient> patientList;
 
-    public Hospital() {
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "hospital")
+    private List<Bed> bedList;
 
+    public Hospital() {
+        bedList = new ArrayList<>(10);
     }
 
     public String getId() {

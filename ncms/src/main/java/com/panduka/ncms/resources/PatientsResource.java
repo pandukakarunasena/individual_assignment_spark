@@ -1,5 +1,6 @@
 package com.panduka.ncms.resources;
 
+import com.panduka.ncms.dao.impl.HospitalDAOImpl;
 import com.panduka.ncms.dto.AddPatientDTO;
 import com.panduka.ncms.dto.PatientDTO;
 import com.panduka.ncms.dto.impl.AddPatientDTOImpl;
@@ -20,7 +21,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Path("/patients")
 public class PatientsResource {
@@ -33,7 +35,6 @@ public class PatientsResource {
     @Produces(MediaType.APPLICATION_JSON)
     //patient can see the queue number or hospitals can load the patient by id
     public PatientDTO getPatientById(@QueryParam("id") String id){
-
         PatientDTO patientDTO = patientService.getPatientById( id);
         if( patientDTO == null){
             //send error message

@@ -12,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "patient")
-public class Patient implements E{
+public class Patient {
 
     @Id
     @GeneratedValue(generator="system-uuid")
@@ -40,6 +40,7 @@ public class Patient implements E{
 
     @Column(name = "discharge_date")
     private Date dischargedDate;
+
 
     @Column(name = "bed_no")
     private int bedNo;

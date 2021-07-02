@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "patient_queue")
-public class PatientQueue implements E{
+public class PatientQueue{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

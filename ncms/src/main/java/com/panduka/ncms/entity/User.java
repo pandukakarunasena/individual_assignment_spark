@@ -10,7 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "user")
-public class User implements E{
+public class User {
 
     @Id
     @GeneratedValue(generator="system-uuid")
