@@ -57,6 +57,10 @@ public class PatientServiceImpl implements PatientService{
     @Override public boolean addPatient(AddPatientDTO addPatientDTO) {
 
         //select a hospital and a bed no
+        //fill a bed in a hospital and get the hospital ID and the Bed ID
+        //return it here
+        //send to create a pa
+
         //map the addPatientDTO with the Patient entity
         //save the details
         //send the hospital bed no and serial no to the user

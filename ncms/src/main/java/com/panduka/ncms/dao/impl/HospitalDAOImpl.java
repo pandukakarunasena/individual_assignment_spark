@@ -4,6 +4,7 @@ import static com.panduka.ncms.utils.Constants.GET_ALL_HOSPITALS_QUERY;
 import static com.panduka.ncms.utils.Constants.GET_ALL_PATIENTS_BY_HOSPITAL_ID_QUERY;
 
 import com.panduka.ncms.dao.HospitalDAO;
+import com.panduka.ncms.entity.Bed;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.utils.db.HibernateUtil;
@@ -54,7 +55,17 @@ public class HospitalDAOImpl implements HospitalDAO {
 
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(newHospital);
+        String id = (String)session.save(newHospital);
+        //take id of the hospital and create 10 beds.
+        for( int i = 1; i < 11; i++){
+            Bed bed = new Bed(
+                    i,
+                    getHospitalById(id),
+                    null,
+                    false
+            );
+            session.save( bed);
+        }
         session.getTransaction().commit();
         session.close();
 
@@ -97,5 +108,7 @@ public class HospitalDAOImpl implements HospitalDAO {
 
         return patientList;
     }
+
+
 
 }

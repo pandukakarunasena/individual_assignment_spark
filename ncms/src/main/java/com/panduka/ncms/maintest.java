@@ -3,6 +3,8 @@ package com.panduka.ncms;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.entity.User;
+import com.panduka.ncms.helpers.BedBooking;
+import com.panduka.ncms.helpers.BedBookingImpl;
 import com.panduka.ncms.utils.db.HibernateUtil;
 
 import java.util.Date;
@@ -149,8 +151,6 @@ public class maintest {
 
     public static void getPatientListByHospital(){
 
-
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         try{
@@ -175,8 +175,9 @@ public class maintest {
     private static final Logger logger = LogManager.getLogger( maintest.class);
 
     public static void main(String[] args) {
-       getPatientListByHospital();
-
+        List b =  new BedBookingImpl().bookABed(10,0);
+        System.out.println( b.get(0));
+        System.out.println( b.get(1));
     }
 
 

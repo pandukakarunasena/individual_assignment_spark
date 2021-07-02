@@ -1,5 +1,6 @@
 package com.panduka.ncms.utils.db;
 
+import com.panduka.ncms.entity.Bed;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.entity.PatientQueue;
@@ -22,11 +23,14 @@ public class HibernateUtil {
         try{
             Configuration configuration = new Configuration();
             configuration.configure( "hibernate.cfg.xml");
+            logger.info("configure loaded");
 
+            configuration.addAnnotatedClass(Bed.class);
             configuration.addAnnotatedClass(Hospital.class);
             configuration.addAnnotatedClass(User.class);
             configuration.addAnnotatedClass(Patient.class);
             configuration.addAnnotatedClass(PatientQueue.class);
+
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings( configuration.getProperties()).build();
             logger.info( "hibernate service registry created");
@@ -38,7 +42,6 @@ public class HibernateUtil {
 
         }catch (Throwable ex){
             logger.error( " Initial session factory creation failed " + ex + " " + "cause: " + ex.getCause());
-            System.out.println( ex.getCause());
             throw new ExceptionInInitializerError();
         }
     }

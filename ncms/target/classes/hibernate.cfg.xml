@@ -4,6 +4,7 @@
         "https://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+
         <!-- Database connection properties - Driver, URL, user, password -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ncms_hibernate</property>
@@ -21,11 +22,11 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
 
         <!-- Mapping with model class containing annotations -->
+        <mapping class="com.panduka.ncms.entity.Bed"/>
         <mapping class="com.panduka.ncms.entity.Hospital"/>
         <mapping class="com.panduka.ncms.entity.User"/>
         <mapping class="com.panduka.ncms.entity.Patient"/>
         <mapping class="com.panduka.ncms.entity.PatientQueue"/>
-
 
     </session-factory>
 </hibernate-configuration>

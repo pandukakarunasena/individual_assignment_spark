@@ -3,6 +3,7 @@ package com.panduka.ncms.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -41,13 +45,15 @@ public class Hospital {
     private User chiefDoctor;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "hospital")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Patient> patientList;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "hospital")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Bed> bedList;
 
     public Hospital() {
-        bedList = new ArrayList<>(10);
+
     }
 
     public String getId() {
@@ -120,6 +126,14 @@ public class Hospital {
 
     public void setPatientList(List<Patient> patientList) {
         this.patientList = patientList;
+    }
+
+    public List<Bed> getBedList() {
+        return bedList;
+    }
+
+    public void setBedList(List<Bed> bedList) {
+        this.bedList = bedList;
     }
 
     @Override public String toString() {

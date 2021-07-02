@@ -65,9 +65,9 @@ public class HospitalResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<HospitalDTO> getAllHospitals(){
 
-
+        System.out.println("get hopitals ");
         List<HospitalDTO> hospitals = hospitalService.getAllHospitals();
-        System.out.println( hospitals);
+        System.out.println( "what the fuck is happening" + hospitals);
 
         return hospitals;
     }
