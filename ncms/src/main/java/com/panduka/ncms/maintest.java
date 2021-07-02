@@ -1,5 +1,6 @@
 package com.panduka.ncms;
 
+import com.panduka.ncms.dao.impl.HospitalDAOImpl;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.entity.User;
@@ -175,7 +176,20 @@ public class maintest {
     private static final Logger logger = LogManager.getLogger( maintest.class);
 
     public static void main(String[] args) {
-        List b =  new BedBookingImpl().bookABed(10,0);
+
+//        Hospital h = new Hospital();
+//        h.setName("hospital0");
+//        h.setAvailBeds(10);
+//        h.setDistrict("district0");
+//        h.setLocationX(0);
+//        h.setLocationY(0);
+//        h.setBuildDate(new Date());
+//        h.setPatientList(null);
+//        h.setChiefDoctor(null);
+//
+//        new HospitalDAOImpl().createHospital( h);
+
+        List b =  new BedBookingImpl().bookABed(0,0);
         System.out.println( b.get(0));
         System.out.println( b.get(1));
     }

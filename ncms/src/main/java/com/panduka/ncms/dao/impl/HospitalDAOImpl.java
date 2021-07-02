@@ -9,6 +9,7 @@ import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.utils.db.HibernateUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -56,16 +57,24 @@ public class HospitalDAOImpl implements HospitalDAO {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         String id = (String)session.save(newHospital);
-        //take id of the hospital and create 10 beds.
+        session.getTransaction().commit();
+
+        session.beginTransaction();
+        Hospital hospital = getHospitalById( id);
+        System.out.println("hospital ID: " +hospital.getId());
+
+        List<Bed> bedList = new ArrayList<>(10);
         for( int i = 1; i < 11; i++){
             Bed bed = new Bed(
                     i,
-                    getHospitalById(id),
+                    hospital,
                     null,
                     false
             );
+            bedList.add( bed);
             session.save( bed);
         }
+        hospital.setBedList( bedList);
         session.getTransaction().commit();
         session.close();
 

@@ -42,9 +42,8 @@ public class Patient {
     @Column(name = "discharge_date")
     private Date dischargedDate;
 
-
-    @Column(name = "bed_no")
-    private int bedNo;
+    @OneToOne
+    private Bed bedNo;
 
     @OneToOne
     private User admittedBy;
@@ -55,7 +54,7 @@ public class Patient {
     @ManyToOne
     private PatientQueue patientQueue;
 
-    @ManyToOne()
+    @ManyToOne
     private Hospital hospital;
 
     public Patient() {
@@ -149,11 +148,11 @@ public class Patient {
         this.dischargedDate = dischargedDate;
     }
 
-    public int getBedNo() {
+    public Bed getBedNo() {
         return bedNo;
     }
 
-    public void setBedNo(int bedNo) {
+    public void setBedNo(Bed bedNo) {
         this.bedNo = bedNo;
     }
 

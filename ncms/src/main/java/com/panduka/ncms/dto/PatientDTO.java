@@ -1,5 +1,6 @@
 package com.panduka.ncms.dto;
 
+import com.panduka.ncms.entity.Bed;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.PatientQueue;
 import java.util.Date;
@@ -27,8 +28,8 @@ import java.util.Date;
      void setAdmitDate(Date admitDate) ;
      Date getDischargedDate() ;
      void setDischargedDate(Date dischargedDate);
-     int getBedNo() ;
-     void setBedNo(int bedNo) ;
+     Bed getBedNo() ;
+     void setBedNo(Bed bedNo) ;
      UserDTO getAdmittedBy();
      void setAdmittedBy(UserDTO admittedBy);
      UserDTO getDischargedBy();

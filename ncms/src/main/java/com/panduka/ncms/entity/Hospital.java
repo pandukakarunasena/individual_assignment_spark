@@ -92,7 +92,7 @@ public class Hospital {
         return locationY;
     }
 
-    public void setLocationY(float location_y) {
+    public void setLocationY(float locationY) {
         this.locationY = locationY;
     }
 

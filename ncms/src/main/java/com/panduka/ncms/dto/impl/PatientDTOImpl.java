@@ -3,9 +3,8 @@ package com.panduka.ncms.dto.impl;
 import com.panduka.ncms.dto.HospitalDTO;
 import com.panduka.ncms.dto.PatientDTO;
 import com.panduka.ncms.dto.UserDTO;
-import com.panduka.ncms.entity.Hospital;
+import com.panduka.ncms.entity.Bed;
 import com.panduka.ncms.entity.PatientQueue;
-import com.panduka.ncms.entity.User;
 import java.io.Serializable;
 import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,7 +22,7 @@ public class PatientDTOImpl implements PatientDTO, Serializable{
     private int age;
     private Date admitDate;
     private Date dischargedDate;
-    private int bedNo;
+    private Bed bedNo;
     private UserDTO admittedBy;
     private UserDTO dischargedBy;
     private PatientQueue patientQueue;
@@ -120,11 +119,11 @@ public class PatientDTOImpl implements PatientDTO, Serializable{
         this.dischargedDate = dischargedDate;
     }
 
-    public int getBedNo() {
+    public Bed getBedNo() {
         return bedNo;
     }
 
-    public void setBedNo(int bedNo) {
+    public void setBedNo(Bed bedNo) {
         this.bedNo = bedNo;
     }
 
