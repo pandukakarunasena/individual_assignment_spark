@@ -16,7 +16,6 @@ import javax.persistence.Table;
 public class Bed {
 
    @Id
-   @GeneratedValue(strategy= GenerationType.AUTO)
    @Column( name = "id")
    private int id;
 

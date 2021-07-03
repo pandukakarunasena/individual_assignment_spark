@@ -48,7 +48,7 @@ public class Patient {
     private Bed bedNo;
 
     @OneToOne
-    @JoinColumn( name = "admitted_doctore_id")
+    @JoinColumn( name = "admitted_doctor_id")
     private User admittedBy;
 
     @OneToOne
