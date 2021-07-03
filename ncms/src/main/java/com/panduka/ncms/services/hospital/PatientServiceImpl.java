@@ -67,7 +67,7 @@ public class PatientServiceImpl implements PatientService{
 
         Patient patient = new Patient();
 
-        boolean patientCreated = patientManager.addPatient( patient);
+        boolean patientCreated = patientManager.savePatient( patient);
         return  patientCreated;
     }
 

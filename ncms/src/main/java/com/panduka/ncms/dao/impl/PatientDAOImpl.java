@@ -12,123 +12,149 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 
 public class PatientDAOImpl implements PatientDAO {
 
-    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
     Logger logger = LogManager.getLogger( PatientDAOImpl.class);
 
     @Override public Patient getPatientById(String id) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
 
-        try{
+        Transaction transaction = null;
+        Patient patient = null;
+        try( Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
+            patient = session.get( Patient.class, id);
+            transaction.commit();
+
+        }catch (Exception ex){
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "getPatientById() " + ex.getMessage());
+            logger.error( ex.getCause());
+            ex.printStackTrace();
+            return null;
+        }
+
+        return patient;
+    }
+
+    @Override public boolean savePatient(Patient patient) {
+
+        Transaction transaction = null;
+        try( Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
+            //the bed number and the hospital should be taken as the requirement.
+            session.save( patient);
+            transaction.commit();
+
+        } catch (Exception ex){
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "addPatient() " + ex.getMessage());
+            logger.error( ex.getCause());
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override public boolean deletePatient(String id) {
+
+        Transaction transaction = null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
             Patient patient = session.get( Patient.class, id);
 
             if( patient != null){
-                return  patient;
+                session.delete( patient);
+                logger.info(patient + " deleted");
             }
-            tx.commit();
+            transaction.commit();
 
-        }catch (Exception ex){
-            logger.error( "getPatientById() " + ex.getMessage());
+        }catch ( Exception ex){
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "deletePatient() " + ex.getMessage());
             logger.error( ex.getCause());
-        }finally {
-            session.close();
-        }
-
-        return null;
-    }
-
-    @Override public boolean addPatient(Patient patient) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-
-        try{
-            //the bed number and the hospital should be taken as the requirement.
-            session.save( patient);
-            tx.commit();
-
-        }catch (Exception ex){
-            logger.error( "addPatient() " + ex.getMessage());
-            logger.error( ex.getCause());
-        }finally {
-            session.close();
+            ex.printStackTrace();
+            return  false;
         }
 
         return true;
     }
 
-    @Override public boolean deletePatient(String id) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-
-        try{
-            Patient patient = session.get( Patient.class, id);
-
-            if( patient != null){
-                session.delete( patient);
-                return true;
-            }
-            tx.commit();
-
-        }catch ( Exception ex){
-            logger.error( "deletePatient() " + ex.getMessage());
-            logger.error( ex.getCause());
-        }finally {
-            session.close();
-        }
-
-        return false;
-    }
-
     @Override public boolean updatePatient(String id, Patient newPatientDetails) {
-        return false;
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+            transaction = session.beginTransaction();
+            session.update(newPatientDetails);
+            transaction.commit();
+
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "updatePatient() " + ex.getMessage());
+            logger.error( ex.getCause());
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override public List<Patient> getPatientBySeverity(String severity) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
 
-        try{
+        Transaction transaction = null;
+        List< Patient> patients = null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
             Query query = session.createQuery( GET_ALL_PATIENTS_BY_SEVERITY_QUERY);
             query.setParameter( "severity", severity);
 
-            List< Patient> severityPatientList = query.list();
-            tx.commit();
-            return severityPatientList;
+            patients= query.list();
+            transaction.commit();
 
         }catch(Exception ex){
+            if (transaction != null) {
+                transaction.rollback();
+            }
             logger.error( "getPatientBySeverity() " + ex.getMessage());
             logger.error( ex.getCause());
-        }finally{
-            session.close();
+            ex.printStackTrace();
+            return null;
         }
 
-        return null;
+        return patients;
     }
 
     @Override public List<Patient> getAllPatients() {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
 
-        try{
+        Transaction transaction = null;
+        List< Patient> patients = null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
             Query query = session.createQuery( GET_ALL_PATIENTS_QUERY);
-            List< Patient> patientList = query.list();
-            tx.commit();
-            return patientList;
+            patients = query.list();
+            transaction.commit();
 
         }catch( Exception ex){
-            logger.error( "getPatientBySeverity() " + ex.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "getAllPatients() " + ex.getMessage());
             logger.error( ex.getCause());
-        }finally{
-            session.close();
+            ex.printStackTrace();
+            return null;
         }
 
-        return null;
+        return patients;
     }
 }
