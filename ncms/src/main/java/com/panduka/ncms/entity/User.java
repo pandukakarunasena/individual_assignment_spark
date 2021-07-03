@@ -18,7 +18,9 @@ public class User {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name = "id", nullable=false, length=50)
     private String id;
+
     private String username;
+
     private String password;
 
     @Column(name = "first_name")

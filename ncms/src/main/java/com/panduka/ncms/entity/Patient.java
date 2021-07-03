@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -20,6 +21,7 @@ public class Patient {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name = "id", nullable=false, length=50)
     private String id;
+
     private String district;
 
     @Column(name = "location_x")
@@ -42,19 +44,22 @@ public class Patient {
     @Column(name = "discharge_date")
     private Date dischargedDate;
 
-    @OneToOne
+    @OneToOne( mappedBy = "patient")
     private Bed bedNo;
 
     @OneToOne
+    @JoinColumn( name = "admitted_doctore_id")
     private User admittedBy;
 
     @OneToOne
+    @JoinColumn( name = "discharged_doctor_id")
     private User dischargedBy;
 
     @ManyToOne
     private PatientQueue patientQueue;
 
     @ManyToOne
+    @JoinColumn( name = "hospital_id")
     private Hospital hospital;
 
     public Patient() {

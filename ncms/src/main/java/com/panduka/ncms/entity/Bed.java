@@ -1,10 +1,12 @@
 package com.panduka.ncms.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -15,18 +17,27 @@ public class Bed {
 
    @Id
    @GeneratedValue(strategy= GenerationType.AUTO)
+   @Column( name = "id")
    private int id;
 
-   @ManyToOne
+   @ManyToOne( cascade = CascadeType.ALL)
+   @JoinColumn( name = "hospital_id")
    private Hospital hospital;
 
    @OneToOne
+   @JoinColumn( name = "patient_id")
    private Patient patient;
 
    @Column( name = "is_filled")
    private boolean isFilled;
 
     public Bed() {
+    }
+
+    public Bed(int id, Hospital hospital, boolean isFilled) {
+        this.id = id;
+        this.hospital = hospital;
+        this.isFilled = isFilled;
     }
 
     public Bed(int id, Hospital hospital, Patient patient, boolean isFilled) {
@@ -44,19 +55,19 @@ public class Bed {
         this.id = id;
     }
 
-    public Hospital getHospitalId() {
+    public Hospital getHospital() {
         return hospital;
     }
 
-    public void setHospitalId(Hospital hospital) {
+    public void setHospital(Hospital hospital) {
         this.hospital = hospital;
     }
 
-    public Patient getPatientId() {
+    public Patient getPatient() {
         return patient;
     }
 
-    public void setPatientId(Patient patient) {
+    public void setPatient(Patient patient) {
         this.patient = patient;
     }
 
