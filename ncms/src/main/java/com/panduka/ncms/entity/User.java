@@ -9,32 +9,32 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity
-@Table(name = "user")
-public class User {
+@Entity @Table(name = "user") public class User {
 
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name = "id", nullable=false, length=50)
-    private String id;
+    @Id @GeneratedValue(generator = "system-uuid") @GenericGenerator(name = "system-uuid", strategy = "uuid") @Column(name = "id", nullable = false, length = 50) private String id;
 
-    private String username;
+    @Column(unique = true) private String username;
 
     private String password;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "first_name") private String firstName;
 
-    @Column( name = "last_name")
-    private String lastName;
+    @Column(name = "last_name") private String lastName;
 
     private String role;
 
-    @OneToOne( mappedBy = "chiefDoctor")
-    private Hospital hospital;
+    @OneToOne(mappedBy = "chiefDoctor") private Hospital hospital;
 
     public User() {
+    }
+
+    public User(String username, String password, String firstName, String lastName, String role, Hospital hospital) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.hospital = hospital;
     }
 
     public String getId() {
@@ -85,10 +85,18 @@ public class User {
         this.role = role;
     }
 
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
     @Override public String toString() {
         return "User{" + "id='" + id + '\'' + ", username='" + username + '\'' + ", password='" + password + '\''
-                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\''
-                + ", role='" + role + '\'' + '}';
+                + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", role='" + role + '\''
+                + '}';
     }
 
 }
