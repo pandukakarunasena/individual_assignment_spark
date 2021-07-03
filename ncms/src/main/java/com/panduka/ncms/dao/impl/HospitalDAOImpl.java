@@ -16,108 +16,175 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class HospitalDAOImpl implements HospitalDAO {
-
-    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
     private static final Logger logger = LogManager.getLogger( HospitalDAOImpl.class);
 
     @Override public List getAllHospitals() {
-        logger.info( "getAllHospitals() method called: HospitalDAOImpl class");
-        Session session = sessionFactory.openSession();
 
-        Transaction tx = session.beginTransaction();
-        Query q = session.createQuery( GET_ALL_HOSPITALS_QUERY);
-        List allHospitals= q.list();
-        tx.commit();
-        session.close();
+        Transaction transaction = null;
+        List hospitals = null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession() ){
+            transaction = session.beginTransaction();
+            Query q = session.createQuery( GET_ALL_HOSPITALS_QUERY);
+            hospitals= q.list();
+            transaction.commit();
 
-        return allHospitals;
+        }catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "getAllHospitals(): " + ex.getMessage());
+            logger.error( ex.getCause());
+            ex.printStackTrace();
+
+            return null;
+        }
+        return hospitals;
     }
 
     @Override public Hospital getHospitalById(String id) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
 
-        Hospital selectedHospitalById = session.get( Hospital.class, id);
-        tx.commit();
-        session.close();
+        Transaction transaction = null;
+        Hospital hospital = null;
+        try( Session session = HibernateUtil.getSessionFactory().openSession()){
 
-        System.out.println(selectedHospitalById);
+            transaction = session.beginTransaction();
+            hospital = session.get( Hospital.class, id);
+            transaction.commit();
 
-        return selectedHospitalById;
+        }catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "getAllHospitals(): " + ex.getMessage());
+            logger.error( ex.getCause());
+            ex.printStackTrace();
 
+            return null;
+        }
+
+        return hospital;
     }
 
-    @Override public Hospital createHospital( Hospital newHospital) {
+    @Override public Hospital saveHospital( Hospital newHospital) {
 
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        String id = (String)session.save(newHospital);
-        session.getTransaction().commit();
+        Transaction transaction = null;
+        Hospital hospital = null;
+        try( Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
 
-        session.beginTransaction();
-        Hospital hospital = getHospitalById( id);
-        System.out.println("hospital ID: " +hospital.getId());
+            String id = (String)session.save(newHospital);
+            transaction.commit();
 
-        List<Bed> bedList = new ArrayList<>(10);
-        for( int i = 1; i < 11; i++){
-            Bed bed = new Bed(
-                    i,
-                    hospital,
-                    null,
-                    false
-            );
-            bedList.add( bed);
-            session.save( bed);
+            session.beginTransaction();
+            hospital = getHospitalById( id);
+
+            List<Bed> bedList = new ArrayList<>(10);
+            for( int i = 1; i < 11; i++){
+                Bed bed = new Bed(
+                        i,
+                        hospital,
+                        null,
+                        false
+                );
+                bedList.add( bed);
+                session.save( bed);
+            }
+            hospital.setBedList( bedList);
+            transaction.commit();
+
+
+
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "saveHospital(): " + ex.getMessage());
+            logger.error( ex.getCause());
+            ex.printStackTrace();
+
+            return null;
         }
-        hospital.setBedList( bedList);
-        session.getTransaction().commit();
-        session.close();
 
-
-        //terminate session factory, otherwise program won't end
-        //HibernateUtil.getSessionFactory().close();
-
-        return null;//send the created hospital data
+        return hospital;
     }
 
     @Override public boolean deleteHospital(String id) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = session.beginTransaction();
 
-        Hospital hospitalToBeDeleted = session.get( Hospital.class, id);
+        Transaction transaction = null;
+        try(  Session session = HibernateUtil.getSessionFactory().openSession()){
 
-        if( hospitalToBeDeleted != null){
-            session.delete( hospitalToBeDeleted);
-            return true;
+            transaction = session.beginTransaction();
+            Hospital hospitalToBeDeleted = session.get( Hospital.class, id);
+
+            if( hospitalToBeDeleted != null){
+                session.delete( hospitalToBeDeleted);
+                logger.info( hospitalToBeDeleted + " deleted");
+
+            }
+            transaction.commit();
+            session.close();
+
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "deleteHospital(): " + ex.getMessage());
+            logger.error( ex.getCause());
+            ex.printStackTrace();
+
+            return false;
         }
 
-        tx.commit();
-        session.close();
-
-        return false;
+        return true;
     }
 
     @Override public boolean updateHospital(String id, Hospital newUpdatedHospital) {
-        return false;
+
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.update(newUpdatedHospital);
+            transaction.commit();
+            logger.info( newUpdatedHospital + " updated");
+
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "deleteHospital(): " + ex.getMessage());
+            logger.error( ex.getCause());
+            ex.printStackTrace();
+            return  false;
+        }
+
+        return true;
     }
 
     @Override public List<Patient> getPatientsByHospital(String id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
 
-        Query q = session.createQuery( GET_ALL_PATIENTS_BY_HOSPITAL_ID_QUERY);
-        q.setParameter( "id", id);
+        Transaction transaction = null;
+        List< Patient> patients = null;
+        try( Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
 
-        List< Patient> patientList = q.list();
+            Query q = session.createQuery( GET_ALL_PATIENTS_BY_HOSPITAL_ID_QUERY);
+            q.setParameter( "id", id);
+            patients = q.list();
 
-        return patientList;
+        }catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error( "deleteHospital(): " + ex.getMessage());
+            logger.error( ex.getCause());
+            ex.printStackTrace();
+            return null;
+        }
+        return patients;
     }
-
-
 
 }

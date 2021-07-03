@@ -40,7 +40,7 @@ public class HospitalServiceImpl implements HospitalService{
     @Override public HospitalDTO createHospital(HospitalDTO newHospitalDTO) {
         Hospital newHospitalEntity =(Hospital) Mapper.convertToEntityObject( newHospitalDTO);
 
-        hospitalManager.createHospital(newHospitalEntity);
+        hospitalManager.saveHospital(newHospitalEntity);
 
         //convert the returned entity object to DTO before returning
         return newHospitalDTO;
