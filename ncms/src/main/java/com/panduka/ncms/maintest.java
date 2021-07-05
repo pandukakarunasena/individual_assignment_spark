@@ -1,6 +1,9 @@
 package com.panduka.ncms;
 
+import com.panduka.ncms.auth.TokenGenerator;
+import com.panduka.ncms.dao.UserDAO;
 import com.panduka.ncms.dao.impl.HospitalDAOImpl;
+import com.panduka.ncms.dao.impl.UserDAOImpl;
 import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.entity.Patient;
 import com.panduka.ncms.entity.User;
@@ -189,9 +192,31 @@ public class maintest {
 //
 //        new HospitalDAOImpl().createHospital( h);
 
-        List b =  new BedBookingImpl().bookABed(0,0);
-        System.out.println( b.get(0));
-        System.out.println( b.get(1));
+//        List b =  new BedBookingImpl().bookABed(0,0);
+//        System.out.println( b.get(0));
+//        System.out.println( b.get(1));
+
+
+//        User userToBeUpdated = new User(
+//                "userTest1",
+//                "password1",
+//                "jon",
+//                "doe",
+//                "MOH admin",
+//                null
+//        );
+//        UserDAO userDAOImpl = new UserDAOImpl();
+////        String id = "402888f27a6d7a01017a6d7a07b30000";
+//        User existingUser = userDAOImpl.getUserByUserNameAndPassword( "userTest2", "password2");
+//        System.out.println( existingUser.getFirstName() + " " + existingUser.getLastName());
+
+//        existingUser.setUsername("userTest1");
+//        existingUser.setPassword("password1");
+//
+//        System.out.println(userDAOImpl.updateUser(id, existingUser));
+//        String jwt = new TokenGenerator().generateToken("jon", "snow");
+//        System.out.println( jwt);
+        //System.out.println( new TokenGenerator().parseJwt( "eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidXNlclRlc3QzIiwicGFzc3dvcmQiOiJwYXNzd29yZDMiLCJzdWIiOiJqYW5lIiwianRpIjoiNmQzNmNiMzItNDdmZC00Yjg2LTk2YTYtOTgyYzRlNjk0Yzg2IiwiaWF0IjoxNjI1NDgwMjMzLCJleHAiOjE2MjU0ODA1MzN9.fbMQoNgCDApGDlYgNTGCSHCHUzqW91tYLe1BBDnUu3A"));
     }
 
 

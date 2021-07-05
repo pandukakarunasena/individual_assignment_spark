@@ -3,12 +3,12 @@ package com.panduka.ncms.resources;
 import com.panduka.ncms.dto.HospitalDTO;
 import com.panduka.ncms.dto.PatientDTO;
 import com.panduka.ncms.dto.impl.HospitalDTOImpl;
-import com.panduka.ncms.entity.Hospital;
 import com.panduka.ncms.services.hospital.HospitalService;
 import com.panduka.ncms.services.hospital.HospitalServiceImpl;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -32,6 +32,7 @@ public class HospitalResource {
     @GET
     @Path("/hospital")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({ "MOHADMIN", "DOCTOR", "CHIEFDOCTOR" })
     public HospitalDTO getHospitalById(@QueryParam("id") String id){
 
         HospitalDTO hospital = hospitalService.getHospitalById(id);
@@ -43,6 +44,7 @@ public class HospitalResource {
     @DELETE
     @Path("/hospital")
     @Produces( MediaType.APPLICATION_JSON)
+    @RolesAllowed("MOHADMIN")
     public boolean deleteHospitalById(@QueryParam("id") String id){
 
         boolean deleted = hospitalService.deleteHospitalById( id);
@@ -53,6 +55,7 @@ public class HospitalResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("MOHADMIN")
     public Response createHospital(HospitalDTOImpl newHospitalDTO){
         System.out.println( newHospitalDTO.getChiefDoctor());
         hospitalService.createHospital(newHospitalDTO);
@@ -63,6 +66,7 @@ public class HospitalResource {
     //endpoint - get all hospitals - api/hospitals/
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("MOHADMIN")
     public List<HospitalDTO> getAllHospitals(){
 
         System.out.println("get hopitals ");
@@ -76,6 +80,7 @@ public class HospitalResource {
     @GET
     @Path( "/patients")
     @Produces( MediaType.APPLICATION_JSON)
+    @RolesAllowed({"MOHADMIN", "DOCTOR", "CHIEFDOCTOR"})
     public List<PatientDTO> getPatientByHospital(@QueryParam("id") String id){
 
         List< PatientDTO> patientDTOList = hospitalService.getPatientsByHospital( id);

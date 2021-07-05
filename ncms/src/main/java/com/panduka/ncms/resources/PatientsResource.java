@@ -1,6 +1,5 @@
 package com.panduka.ncms.resources;
 
-import com.panduka.ncms.dao.impl.HospitalDAOImpl;
 import com.panduka.ncms.dto.AddPatientDTO;
 import com.panduka.ncms.dto.PatientDTO;
 import com.panduka.ncms.dto.impl.AddPatientDTOImpl;
@@ -9,6 +8,8 @@ import com.panduka.ncms.services.hospital.PatientServiceImpl;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -21,8 +22,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 @Path("/patients")
 public class PatientsResource {
@@ -33,6 +33,7 @@ public class PatientsResource {
     @GET
     @Path("/patient")
     @Produces(MediaType.APPLICATION_JSON)
+    @PermitAll
     //patient can see the queue number or hospitals can load the patient by id
     public PatientDTO getPatientById(@QueryParam("id") String id){
         PatientDTO patientDTO = patientService.getPatientById( id);
@@ -46,6 +47,7 @@ public class PatientsResource {
     //localhost:8080/api/patients/patient/
     @POST
     @Path("/patient")
+    @PermitAll
     public Response addPatient(
             @FormParam("name") String name,
             @FormParam("age") int age,
@@ -76,6 +78,7 @@ public class PatientsResource {
     //localhost:8080/api/patients/patient?={id}
     @DELETE
     @Path("/patient")
+    @RolesAllowed({"MOHADMIN", "DOCTOR", "CHIEFDOCTOR"})
     public void deletePatient(@QueryParam("id") String id){
         boolean deleted = patientService.deletePatient( id);
 
@@ -91,12 +94,14 @@ public class PatientsResource {
     @PUT
     @Path("/patient")
     @Consumes( MediaType.APPLICATION_JSON)
+    @RolesAllowed({"MOHADMIN", "DOCTOR", "CHIEFDOCTOR"})
     public void updatePatient(@QueryParam("id") String id){
 
     }
 
     //localhost:8080/api/patients?={severity}
     @GET
+    @RolesAllowed({"MOHADMIN", "DOCTOR", "CHIEFDOCTOR"})
     public List<PatientDTO> getPatientBySeverity(@QueryParam("severity") String severity){
         List<PatientDTO> patientDTOListBySeverity = patientService.getPatientBySeverity(severity );
 
@@ -106,6 +111,7 @@ public class PatientsResource {
     //localhost:8080/api/patients/
     @GET
     @Produces( MediaType.APPLICATION_JSON)
+    @RolesAllowed({"MOHADMIN", "DOCTOR", "CHIEFDOCTOR"})
     public List<PatientDTO> getAllPatients(){
         List<PatientDTO> patientDTOList = patientService.getAllPatients();
         System.out.println( patientDTOList);

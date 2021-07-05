@@ -1,15 +1,14 @@
 package com.panduka.ncms.resources;
 
-import com.panduka.ncms.auth.TokenGenerator;
-import com.panduka.ncms.dao.UserDAO;
 import com.panduka.ncms.dao.impl.UserDAOImpl;
 import com.panduka.ncms.entity.User;
 import com.panduka.ncms.exception.InvalidCredentialsException;
 
+import com.panduka.ncms.exception.UserNotFoundException;
 import com.panduka.ncms.services.hospital.UserService;
 import com.panduka.ncms.services.hospital.UserServiceImpl;
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -24,6 +23,7 @@ import org.apache.logging.log4j.Logger;
     private static final Logger logger = LogManager.getLogger(UserDAOImpl.class);
 
     //register
+    @PermitAll
     @POST @Path("/register") @Consumes(MediaType.APPLICATION_FORM_URLENCODED) public Response userRegister(
             @FormParam("firstName") String firstName, @FormParam("lastName") String lastName,
             @FormParam("password") String password, @FormParam("role") String role,
@@ -48,14 +48,12 @@ import org.apache.logging.log4j.Logger;
     }
 
     //login
-
+    @PermitAll
     @Path("/login") @POST @Consumes(MediaType.APPLICATION_FORM_URLENCODED) public Response userLogin(
             @FormParam("password") String password, @FormParam("username") String username) {
         if (username.isEmpty() || password.isEmpty()) {
             return Response.status(401).entity("bad request").build();
         }
-        System.out.println(password);
-        System.out.println(username);
         try {
             UserService userService = new UserServiceImpl();
             String token = userService.login(username, password);
@@ -64,7 +62,7 @@ import org.apache.logging.log4j.Logger;
             Response response = rb.header("Authorization", token).build();
             return response;
 
-        } catch (InvalidCredentialsException ex) {
+        } catch (UserNotFoundException ex) {
             logger.error(ex.getMessage());
             logger.error(ex.getCause());
             ex.printStackTrace();

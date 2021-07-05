@@ -29,7 +29,7 @@ public class HospitalDAOImpl implements HospitalDAO {
         try(Session session = HibernateUtil.getSessionFactory().openSession() ){
             transaction = session.beginTransaction();
             Query q = session.createQuery( GET_ALL_HOSPITALS_QUERY);
-            hospitals= q.list();
+            hospitals = q.list();
             transaction.commit();
 
         }catch (Exception ex) {

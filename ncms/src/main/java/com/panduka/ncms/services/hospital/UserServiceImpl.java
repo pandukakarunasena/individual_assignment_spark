@@ -5,6 +5,7 @@ import com.panduka.ncms.dao.UserDAO;
 import com.panduka.ncms.dao.impl.UserDAOImpl;
 import com.panduka.ncms.entity.User;
 import com.panduka.ncms.exception.InvalidCredentialsException;
+import com.panduka.ncms.exception.UserNotFoundException;
 
 public class UserServiceImpl implements UserService {
 
@@ -23,17 +24,27 @@ public class UserServiceImpl implements UserService {
         return token;
     }
 
-    @Override public String login(String username, String password) throws InvalidCredentialsException {
+    @Override public String login(String username, String password) throws UserNotFoundException {
 
         UserDAO userDAO = new UserDAOImpl();
         User user = userDAO.getUserByUserNameAndPassword(username, password);
 
         if (user == null) {
-            throw new InvalidCredentialsException();
+            throw new UserNotFoundException();
         }
 
         String token = new TokenGenerator().generateToken(username, password);
         return token;
+    }
+
+    @Override public User getUserByUsername(String username) throws UserNotFoundException {
+        UserDAO userDAO = new UserDAOImpl();
+        User user = userDAO.getUserByUsername(username);
+
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        return user;
     }
 
     @Override public boolean update(User user) {

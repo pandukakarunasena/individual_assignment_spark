@@ -1,5 +1,6 @@
 package com.panduka.ncms.auth;
 
+import com.panduka.ncms.exception.InvalidJwtException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -29,11 +30,13 @@ public class TokenGenerator {
         return jwtToken;
     }
 
-    public Jws<Claims> parseJwt(String jwtString) {
+    public Jws<Claims> parseJwt(String jwtString) throws InvalidJwtException {
 
         Key hmacKey = new SecretKeySpec(Base64.getDecoder().decode(secret), SignatureAlgorithm.HS256.getJcaName());
-
         Jws<Claims> jwt = Jwts.parserBuilder().setSigningKey(hmacKey).build().parseClaimsJws(jwtString);
+        if( jwt == null){
+            throw new InvalidJwtException();
+        }
 
         return jwt;
     }
