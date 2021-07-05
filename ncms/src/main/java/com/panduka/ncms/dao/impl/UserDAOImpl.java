@@ -2,7 +2,6 @@ package com.panduka.ncms.dao.impl;
 
 import com.panduka.ncms.dao.UserDAO;
 import com.panduka.ncms.entity.User;
-import com.panduka.ncms.exception.InvalidCredentialsException;
 import com.panduka.ncms.exception.UserCreationFailedException;
 import com.panduka.ncms.utils.db.HibernateUtil;
 import java.util.List;
@@ -140,6 +139,35 @@ public class UserDAOImpl implements UserDAO {
                 transaction.rollback();
             }
             logger.error("getUserByUserNameAndPassword() " + ex.getMessage());
+            logger.error(ex.getCause());
+            ex.printStackTrace();
+
+        }
+
+        return user;
+    }
+
+    @Override public User getUserByUsername(String username) {
+        Transaction transaction = null;
+        User user = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            String hql = " FROM User U WHERE U.username = :username";
+            Query query = session.createQuery(hql);
+            query.setParameter("username", username);
+            List results = query.getResultList();
+
+            if (results != null && !results.isEmpty()) {
+                user = (User) results.get(0);
+            }
+
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error("getUserByUsername() " + ex.getMessage());
             logger.error(ex.getCause());
             ex.printStackTrace();
 
