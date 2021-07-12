@@ -4,11 +4,16 @@ import com.panduka.ncms.entity.Patient;
 import java.util.List;
 
 public interface PatientDAO {
-     Patient getPatientById(String id);
-     boolean  savePatient(Patient patient);
-     boolean deletePatient(String id);
-     boolean updatePatient(String id, Patient newPatientDetails);
+    Patient getPatientById(String id);
 
-     List<Patient> getPatientBySeverity(String severity);
-     List<Patient> getAllPatients();
+    String savePatient(Patient patient);
+
+    boolean deletePatient(String id);
+
+    boolean updatePatient(String id, Patient newPatientDetails);
+
+    List<Patient> getPatientBySeverity(String severity);
+
+    List<Patient> getAllPatients();
+
 }

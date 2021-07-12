@@ -20,24 +20,24 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class HospitalDAOImpl implements HospitalDAO {
-    private static final Logger logger = LogManager.getLogger( HospitalDAOImpl.class);
+    private static final Logger logger = LogManager.getLogger(HospitalDAOImpl.class);
 
     @Override public List getAllHospitals() {
 
         Transaction transaction = null;
         List hospitals = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession() ){
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            Query q = session.createQuery( GET_ALL_HOSPITALS_QUERY);
+            Query q = session.createQuery(GET_ALL_HOSPITALS_QUERY);
             hospitals = q.list();
             transaction.commit();
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "getAllHospitals(): " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("getAllHospitals(): " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
 
             return null;
@@ -49,18 +49,18 @@ public class HospitalDAOImpl implements HospitalDAO {
 
         Transaction transaction = null;
         Hospital hospital = null;
-        try( Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
             transaction = session.beginTransaction();
-            hospital = session.get( Hospital.class, id);
+            hospital = session.get(Hospital.class, id);
             transaction.commit();
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "getAllHospitals(): " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("getAllHospitals(): " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
 
             return null;
@@ -69,41 +69,21 @@ public class HospitalDAOImpl implements HospitalDAO {
         return hospital;
     }
 
-    @Override public Hospital saveHospital( Hospital newHospital) {
+    @Override public Hospital saveHospital(Hospital newHospital) {
 
         Transaction transaction = null;
         Hospital hospital = null;
-        try( Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-
-            String id = (String)session.save(newHospital);
+            session.save(newHospital);
             transaction.commit();
-
-            session.beginTransaction();
-            hospital = getHospitalById( id);
-
-            List<Bed> bedList = new ArrayList<>(10);
-            for( int i = 1; i < 11; i++){
-                Bed bed = new Bed(
-                        i,
-                        hospital,
-                        null,
-                        false
-                );
-                bedList.add( bed);
-                session.save( bed);
-            }
-            hospital.setBedList( bedList);
-            transaction.commit();
-
-
 
         } catch (Exception ex) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            logger.error( "saveHospital(): " + ex.getMessage());
-            logger.error( ex.getCause());
+            //            if (transaction != null) {
+            //                transaction.rollback();
+            //            }
+            logger.error("saveHospital(): " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
 
             return null;
@@ -115,14 +95,14 @@ public class HospitalDAOImpl implements HospitalDAO {
     @Override public boolean deleteHospital(String id) {
 
         Transaction transaction = null;
-        try(  Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
             transaction = session.beginTransaction();
-            Hospital hospitalToBeDeleted = session.get( Hospital.class, id);
+            Hospital hospitalToBeDeleted = session.get(Hospital.class, id);
 
-            if( hospitalToBeDeleted != null){
-                session.delete( hospitalToBeDeleted);
-                logger.info( hospitalToBeDeleted + " deleted");
+            if (hospitalToBeDeleted != null) {
+                session.delete(hospitalToBeDeleted);
+                logger.info(hospitalToBeDeleted + " deleted");
 
             }
             transaction.commit();
@@ -132,8 +112,8 @@ public class HospitalDAOImpl implements HospitalDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "deleteHospital(): " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("deleteHospital(): " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
 
             return false;
@@ -149,16 +129,16 @@ public class HospitalDAOImpl implements HospitalDAO {
             transaction = session.beginTransaction();
             session.update(newUpdatedHospital);
             transaction.commit();
-            logger.info( newUpdatedHospital + " updated");
+            logger.info(newUpdatedHospital + " updated");
 
         } catch (Exception ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "deleteHospital(): " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("deleteHospital(): " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
-            return  false;
+            return false;
         }
 
         return true;
@@ -167,20 +147,20 @@ public class HospitalDAOImpl implements HospitalDAO {
     @Override public List<Patient> getPatientsByHospital(String id) {
 
         Transaction transaction = null;
-        List< Patient> patients = null;
-        try( Session session = HibernateUtil.getSessionFactory().openSession()){
+        List<Patient> patients = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            Query q = session.createQuery( GET_ALL_PATIENTS_BY_HOSPITAL_ID_QUERY);
-            q.setParameter( "id", id);
+            Query q = session.createQuery(GET_ALL_PATIENTS_BY_HOSPITAL_ID_QUERY);
+            q.setParameter("id", id);
             patients = q.list();
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "deleteHospital(): " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("deleteHospital(): " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
             return null;
         }

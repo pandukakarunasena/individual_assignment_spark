@@ -25,7 +25,7 @@ public class TokenGenerator {
 
         String jwtToken = Jwts.builder().claim("name", username).claim("password", password).setSubject("jane")
                 .setId(UUID.randomUUID().toString()).setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plus(5l, ChronoUnit.MINUTES))).signWith(hmacKey).compact();
+                .setExpiration(Date.from(now.plus(50l, ChronoUnit.MINUTES))).signWith(hmacKey).compact();
 
         return jwtToken;
     }
@@ -34,7 +34,7 @@ public class TokenGenerator {
 
         Key hmacKey = new SecretKeySpec(Base64.getDecoder().decode(secret), SignatureAlgorithm.HS256.getJcaName());
         Jws<Claims> jwt = Jwts.parserBuilder().setSigningKey(hmacKey).build().parseClaimsJws(jwtString);
-        if( jwt == null){
+        if (jwt == null) {
             throw new InvalidJwtException();
         }
 

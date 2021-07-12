@@ -1,59 +1,42 @@
 package com.panduka.ncms.entity;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
-@Entity
-@Table(name = "hospital")
-public class Hospital {
+@XmlRootElement @Entity @Table(name = "hospital") public class Hospital {
 
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name = "id", nullable=false, length=50)
-    private String id;
+    @Id @GeneratedValue(generator = "system-uuid") @GenericGenerator(name = "system-uuid", strategy = "uuid") @Column(name = "id", nullable = false, length = 50) private String id;
     private String name;
     private String district;
 
-    @Column(name="location_x")
-    private float locationX;
+    @Column(name = "location_x") private float locationX;
 
-    @Column(name="location_y")
-    private float locationY;
+    @Column(name = "location_y") private float locationY;
 
-    @Column(name="build_date")
-    private Date buildDate;
+    @Column(name = "build_date") private Date buildDate;
 
-    @Column(name="avail_beds")
-    private int availBeds;
+    @Column(name = "avail_beds") private int availBeds;
 
-    @OneToOne
-    @JoinColumn( name = "chief_doctor_id")
-    private User chiefDoctor;
+    @OneToOne private User chiefDoctor;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "hospital")
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<Patient> patientList;
+    @OneToMany(mappedBy = "hospital") @JsonManagedReference @LazyCollection(LazyCollectionOption.FALSE) private List<Patient> patientList;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "hospital", cascade = { CascadeType.ALL})
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<Bed> bedList;
+    @OneToMany(mappedBy = "hospital") @JsonManagedReference @LazyCollection(LazyCollectionOption.FALSE) private List<Bed> bedList;
 
     public Hospital() {
 
@@ -144,7 +127,5 @@ public class Hospital {
                 + ", location_x=" + locationX + ", location_y=" + locationY + ", buildDate=" + buildDate
                 + ", availBeds=" + availBeds + '}';
     }
-
-
 
 }

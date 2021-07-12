@@ -1,5 +1,6 @@
 package com.panduka.ncms.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,57 +13,55 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity
-@Table(name = "patient")
-public class Patient {
+@Entity @Table(name = "patient") public class Patient {
 
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name = "id", nullable=false, length=50)
-    private String id;
+    @Id @GeneratedValue(generator = "system-uuid") @GenericGenerator(name = "system-uuid", strategy = "uuid") @Column(name = "id", nullable = false, length = 50) private String id;
 
     private String district;
 
-    @Column(name = "location_x")
-    private float locationX;
+    @Column(name = "first_name") private String firstName;
 
-    @Column(name = "location_y")
-    private float locationY;
+    @Column(name = "last_name") private String lastName;
 
-    @Column(name = "severity_level")
-    private String severityLevel;
+    @Column(name = "location_x") private float locationX;
+
+    @Column(name = "location_y") private float locationY;
+
+    @Column(name = "severity_level") private String severityLevel;
 
     private String gender;
     private String contact;
     private String email;
     private int age;
 
-    @Column(name = "admit_date")
-    private Date admitDate;
+    @Column(name = "admit_date") private Date admitDate;
 
-    @Column(name = "discharge_date")
-    private Date dischargedDate;
+    @Column(name = "discharge_date") private Date dischargedDate;
 
-    @OneToOne( mappedBy = "patient")
-    private Bed bedNo;
+    @OneToOne private Bed bed;
 
-    @OneToOne
-    @JoinColumn( name = "admitted_doctor_id")
-    private User admittedBy;
+    @OneToOne private User admittedBy;
 
-    @OneToOne
-    @JoinColumn( name = "discharged_doctor_id")
-    private User dischargedBy;
+    @OneToOne private User dischargedBy;
 
-    @ManyToOne
-    private PatientQueue patientQueue;
-
-    @ManyToOne
-    @JoinColumn( name = "hospital_id")
-    private Hospital hospital;
+    @ManyToOne @JoinColumn @JsonBackReference private Hospital hospital;
 
     public Patient() {
+    }
+
+    public Patient(String district, String firstName, String lastName, float locationX, float locationY, String gender,
+            String contact, String email, int age, Bed bed, Hospital hospital) {
+        this.district = district;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.locationX = locationX;
+        this.locationY = locationY;
+        this.gender = gender;
+        this.contact = contact;
+        this.email = email;
+        this.age = age;
+        this.bed = bed;
+        this.hospital = hospital;
     }
 
     public String getId() {
@@ -154,11 +153,11 @@ public class Patient {
     }
 
     public Bed getBedNo() {
-        return bedNo;
+        return bed;
     }
 
-    public void setBedNo(Bed bedNo) {
-        this.bedNo = bedNo;
+    public void setBedNo(Bed bed) {
+        this.bed = bed;
     }
 
     public User getAdmittedBy() {
@@ -177,14 +176,6 @@ public class Patient {
         this.dischargedBy = dischargedBy;
     }
 
-    public PatientQueue getPatientQueue() {
-        return patientQueue;
-    }
-
-    public void setPatientQueue(PatientQueue patientQueue) {
-        this.patientQueue = patientQueue;
-    }
-
     public Hospital getHospital() {
         return hospital;
     }
@@ -193,12 +184,29 @@ public class Patient {
         this.hospital = hospital;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     @Override public String toString() {
-        return "Patient{" + "id='" + id + '\'' + ", district='" + district + '\'' + ", locationX=" + locationX
-                + ", locationY=" + locationY + ", severityLevel='" + severityLevel + '\'' + ", gender='" + gender + '\''
-                + ", contact='" + contact + '\'' + ", email='" + email + '\'' + ", age=" + age + ", admitDate="
-                + admitDate + ", dischargedDate=" + dischargedDate + ", bedNo=" + bedNo + ", admittedBy=" + admittedBy
-                + ", dischargedBy=" + dischargedBy + '}';
+        return "Patient{" + "id='" + id + '\'' + ", district='" + district + '\'' + ", firstName='" + firstName + '\''
+                + ", lastName='" + lastName + '\'' + ", locationX=" + locationX + ", locationY=" + locationY
+                + ", severityLevel='" + severityLevel + '\'' + ", gender='" + gender + '\'' + ", contact='" + contact
+                + '\'' + ", email='" + email + '\'' + ", age=" + age + ", admitDate=" + admitDate + ", dischargedDate="
+                + dischargedDate + ", bed=" + bed + ", admittedBy=" + admittedBy + ", dischargedBy=" + dischargedBy
+                + ", patientQueue=" + ", hospital=" + hospital + '}';
     }
 
 }

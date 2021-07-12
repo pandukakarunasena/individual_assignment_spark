@@ -5,6 +5,7 @@ import com.panduka.ncms.exception.InvalidJwtException;
 import com.panduka.ncms.exception.UserNotFoundException;
 import com.panduka.ncms.services.hospital.UserService;
 import com.panduka.ncms.services.hospital.UserServiceImpl;
+
 import java.lang.reflect.Method;
 
 import javax.annotation.security.DenyAll;
@@ -17,12 +18,13 @@ import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.Provider;
 
 import java.util.List;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import javax.ws.rs.ext.Provider;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -80,7 +82,6 @@ import org.apache.logging.log4j.Logger;
             User user = null;
             try {
                 user = userService.getUserByUsername(username);
-                ;
             } catch (UserNotFoundException e) {
                 logger.warn("Token mismatch!");
                 requestContext.abortWith(

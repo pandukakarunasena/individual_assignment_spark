@@ -3,9 +3,12 @@ package com.panduka.ncms.services.hospital;
 import com.panduka.ncms.auth.TokenGenerator;
 import com.panduka.ncms.dao.UserDAO;
 import com.panduka.ncms.dao.impl.UserDAOImpl;
+import com.panduka.ncms.dto.impl.UserClient;
 import com.panduka.ncms.entity.User;
 import com.panduka.ncms.exception.InvalidCredentialsException;
 import com.panduka.ncms.exception.UserNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
@@ -24,7 +27,7 @@ public class UserServiceImpl implements UserService {
         return token;
     }
 
-    @Override public String login(String username, String password) throws UserNotFoundException {
+    @Override public List<Object> login(String username, String password) throws UserNotFoundException {
 
         UserDAO userDAO = new UserDAOImpl();
         User user = userDAO.getUserByUserNameAndPassword(username, password);
@@ -33,8 +36,18 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException();
         }
 
+        UserClient userClient = new UserClient(user.getId(), user.getUsername(), user.getFirstName(),
+                user.getLastName(), null, user.getRole());
+
         String token = new TokenGenerator().generateToken(username, password);
-        return token;
+
+        userClient.setToken(token);
+
+        List userDetails = new ArrayList();
+        userDetails.add(token);
+        userDetails.add(userClient);
+
+        return userDetails;
     }
 
     @Override public User getUserByUsername(String username) throws UserNotFoundException {

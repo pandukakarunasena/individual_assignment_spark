@@ -4,14 +4,14 @@ import com.panduka.ncms.dto.HospitalDTO;
 import com.panduka.ncms.dto.PatientDTO;
 import com.panduka.ncms.dto.UserDTO;
 import com.panduka.ncms.entity.Bed;
-import com.panduka.ncms.entity.PatientQueue;
 import java.io.Serializable;
 import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-public class PatientDTOImpl implements PatientDTO, Serializable{
+@XmlRootElement public class PatientDTOImpl implements PatientDTO, Serializable {
     private String id;
+    private String firstName;
+    private String lastName;
     private String district;
     private float locationX;
     private float locationY;
@@ -25,7 +25,6 @@ public class PatientDTOImpl implements PatientDTO, Serializable{
     private Bed bedNo;
     private UserDTO admittedBy;
     private UserDTO dischargedBy;
-    private PatientQueue patientQueue;
     private HospitalDTO hospital;
 
     public PatientDTOImpl() {
@@ -143,14 +142,6 @@ public class PatientDTOImpl implements PatientDTO, Serializable{
         this.dischargedBy = dischargedBy;
     }
 
-    public PatientQueue getPatientQueue() {
-        return patientQueue;
-    }
-
-    public void setPatientQueue(PatientQueue patientQueue) {
-        this.patientQueue = patientQueue;
-    }
-
     public HospitalDTO getHospital() {
         return hospital;
     }
@@ -159,12 +150,29 @@ public class PatientDTOImpl implements PatientDTO, Serializable{
         this.hospital = hospital;
     }
 
+    @Override public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Override public String getFirstName(String firstName) {
+        return firstName;
+    }
+
+    @Override public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override public String getLastName(String lastName) {
+        return lastName;
+    }
+
     @Override public String toString() {
-        return "PatientDTOImpl{" + "id='" + id + '\'' + ", district='" + district + '\'' + ", locationX=" + locationX
-                + ", locationY=" + locationY + ", severityLevel='" + severityLevel + '\'' + ", gender='" + gender + '\''
-                + ", contact='" + contact + '\'' + ", email='" + email + '\'' + ", age=" + age + ", admitDate="
-                + admitDate + ", dischargedDate=" + dischargedDate + ", bedNo=" + bedNo + ", admittedBy=" + admittedBy
-                + ", dischargedBy=" + dischargedBy + ", patientQueue=" + patientQueue + ", hospital=" + hospital + '}';
+        return "PatientDTOImpl{" + "id='" + id + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName
+                + '\'' + ", district='" + district + '\'' + ", locationX=" + locationX + ", locationY=" + locationY
+                + ", severityLevel='" + severityLevel + '\'' + ", gender='" + gender + '\'' + ", contact='" + contact
+                + '\'' + ", email='" + email + '\'' + ", age=" + age + ", admitDate=" + admitDate + ", dischargedDate="
+                + dischargedDate + ", bedNo=" + bedNo + ", admittedBy=" + admittedBy + ", dischargedBy=" + dischargedBy
+                + ", patientQueue=" + ", hospital=" + hospital + '}';
     }
 
 }

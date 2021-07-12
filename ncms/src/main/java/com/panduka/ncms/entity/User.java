@@ -23,7 +23,7 @@ import org.hibernate.annotations.GenericGenerator;
 
     private String role;
 
-    @OneToOne(mappedBy = "chiefDoctor") private Hospital hospital;
+    @OneToOne private Hospital hospital;
 
     public User() {
     }

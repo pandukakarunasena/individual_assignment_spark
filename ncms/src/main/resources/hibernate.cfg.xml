@@ -26,7 +26,7 @@
         <mapping class="com.panduka.ncms.entity.Hospital"/>
         <mapping class="com.panduka.ncms.entity.User"/>
         <mapping class="com.panduka.ncms.entity.Patient"/>
-        <mapping class="com.panduka.ncms.entity.PatientQueue"/>
+
 
     </session-factory>
 </hibernate-configuration>

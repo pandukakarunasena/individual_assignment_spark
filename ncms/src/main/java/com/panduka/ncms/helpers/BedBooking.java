@@ -3,5 +3,6 @@ package com.panduka.ncms.helpers;
 import java.util.List;
 
 public interface BedBooking {
-    List bookABed(int x, int y);
+    List bookABed(float x, float y);
+
 }

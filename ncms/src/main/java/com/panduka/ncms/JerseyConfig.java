@@ -3,6 +3,7 @@ package com.panduka.ncms;
 import static com.panduka.ncms.utils.Constants.PACKAGE_NAME_FOR_RESOURCES;
 
 import com.panduka.ncms.auth.AuthenticationFilter;
+import com.panduka.ncms.utils.CORSFilter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +18,7 @@ import org.glassfish.jersey.server.ResourceConfig;
         register(new LoggingFeature(Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), Level.INFO,
                 LoggingFeature.Verbosity.PAYLOAD_ANY, 10000));
         register(AuthenticationFilter.class);
+        register(CORSFilter.class);
     }
 
 }

@@ -15,76 +15,73 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-
 public class PatientDAOImpl implements PatientDAO {
 
-
-    Logger logger = LogManager.getLogger( PatientDAOImpl.class);
+    Logger logger = LogManager.getLogger(PatientDAOImpl.class);
 
     @Override public Patient getPatientById(String id) {
 
         Transaction transaction = null;
         Patient patient = null;
-        try( Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            patient = session.get( Patient.class, id);
+            patient = session.get(Patient.class, id);
             transaction.commit();
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "getPatientById() " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("getPatientById() " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
             return null;
         }
-
+        //System.out.println(patient.toString());
         return patient;
     }
 
-    @Override public boolean savePatient(Patient patient) {
-
+    @Override public String savePatient(Patient patient) {
+        String id = null;
         Transaction transaction = null;
-        try( Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            //the bed number and the hospital should be taken as the requirement.
-            session.save( patient);
+            id = (String) session.save(patient);
             transaction.commit();
 
-        } catch (Exception ex){
+        } catch (Exception ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "addPatient() " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("addPatient() " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
+        return id;
     }
 
     @Override public boolean deletePatient(String id) {
 
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            Patient patient = session.get( Patient.class, id);
+            Patient patient = session.get(Patient.class, id);
 
-            if( patient != null){
-                session.delete( patient);
+            if (patient != null) {
+                session.delete(patient);
                 logger.info(patient + " deleted");
             }
             transaction.commit();
 
-        }catch ( Exception ex){
+        } catch (Exception ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "deletePatient() " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("deletePatient() " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
-            return  false;
+            return false;
         }
 
         return true;
@@ -102,8 +99,8 @@ public class PatientDAOImpl implements PatientDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "updatePatient() " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("updatePatient() " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
             return false;
         }
@@ -113,21 +110,21 @@ public class PatientDAOImpl implements PatientDAO {
     @Override public List<Patient> getPatientBySeverity(String severity) {
 
         Transaction transaction = null;
-        List< Patient> patients = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+        List<Patient> patients = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createQuery( GET_ALL_PATIENTS_BY_SEVERITY_QUERY);
-            query.setParameter( "severity", severity);
+            Query query = session.createQuery(GET_ALL_PATIENTS_BY_SEVERITY_QUERY);
+            query.setParameter("severity", severity);
 
-            patients= query.list();
+            patients = query.list();
             transaction.commit();
 
-        }catch(Exception ex){
+        } catch (Exception ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "getPatientBySeverity() " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("getPatientBySeverity() " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
             return null;
         }
@@ -138,23 +135,24 @@ public class PatientDAOImpl implements PatientDAO {
     @Override public List<Patient> getAllPatients() {
 
         Transaction transaction = null;
-        List< Patient> patients = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+        List<Patient> patients = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createQuery( GET_ALL_PATIENTS_QUERY);
+            Query query = session.createQuery(GET_ALL_PATIENTS_QUERY);
             patients = query.list();
             transaction.commit();
 
-        }catch( Exception ex){
+        } catch (Exception ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error( "getAllPatients() " + ex.getMessage());
-            logger.error( ex.getCause());
+            logger.error("getAllPatients() " + ex.getMessage());
+            logger.error(ex.getCause());
             ex.printStackTrace();
             return null;
         }
 
         return patients;
     }
+
 }
